@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
+import { saveArticle } from '../../../tools/firebase';
 const Option = Select.Option;
 const { TextArea } = Input;
 
@@ -8,10 +9,16 @@ class EditArticlePage extends Component {
   constructor(props) {
     super(props)
     this.onSelectChange = this.onSelectChange.bind(this);
+    this.saveArticle = this.saveArticle.bind(this);
   }
 
   onSelectChange(value) {
     console.log(`selected ${value}`);
+  }
+
+  saveArticle() {
+    console.log('hiihih');
+    saveArticle();
   }
 
   render() {
@@ -40,7 +47,8 @@ class EditArticlePage extends Component {
         <Row style={{ marginBottom: 24 }}>
           <Col span={24}>
             <Button type="primary" icon="save" size="large"
-              style={{ float: 'right' }}>
+              style={{ float: 'right' }}
+              onClick={this.saveArticle}>
                Save
             </Button>
 
