@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Menu } from 'antd';
+import { Menu, Button } from 'antd';
+import { Route } from 'react-router-dom';
 
 class CategoryMenu extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class CategoryMenu extends Component {
         theme="light"
       >
         <Menu.Item key="new">
-          New
+          Latest
         </Menu.Item>
         <Menu.Item key="basketball">
           Basketball
@@ -36,6 +37,14 @@ class CategoryMenu extends Component {
         <Menu.Item key="sneakers">
           Sneakers
         </Menu.Item>
+        <div style={{ float: 'right', marginRight: 24 }}>
+          <Route
+            render={({ history }) => (
+              <Button type="dashed" shape="circle" icon="plus" size="Large"
+                onClick={() => {history.push('/admin/newarticle')}}/>
+            )}
+          />
+        </div>
       </Menu>
     )
   }

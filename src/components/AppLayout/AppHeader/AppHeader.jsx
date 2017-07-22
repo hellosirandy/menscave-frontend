@@ -6,17 +6,15 @@ class AppHeader extends Component {
   render() {
     return(
       <div style={{ width: '70%', margin: 'auto' }}>
-        <div style={{width: 40, height: 40, marginTop: 11, cursor: 'pointer' }}>
+        <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>
           <Route
             render={({ history }) => (
               <img
                 src={Logo} alt="Logo"
-                style={{width: '100%', height: '100%'}}
+                style={{ width: '100%', height: '100%', cursor: 'pointer' }}
                 onClick={() => {history.push('/home')}}/>
           )}/>
         </div>
-
-
       </div>
 
     )

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import AppHeader from './AppHeader/AppHeader';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Homepage from './Homepage/Homepage';
 import ArticlePage from './ArticlePage/ArticlePage';
+import EditArticlePage from './EditArticlePage/EditArticlePage';
 
 const { Header, Content, Footer } = Layout;
 
@@ -20,6 +21,8 @@ class AppLayout extends Component {
           <Switch>
             <Route exact path='/home' component={ Homepage }/>
             <Route exact path='/article/:article' component={ ArticlePage }/>
+            <Route exact path='/admin/newarticle' component={ EditArticlePage }/>
+            <Redirect from='/' to='/home' />
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
