@@ -15,6 +15,6 @@ const firebaseApp = firebase.initializeApp(config);
 const database = firebaseApp.database();
 const databaseRef = database.ref();
 
-export function saveArticle() {
-  databaseRef.child('articles').push().set('12312123');
+export function saveArticle(article) {
+  databaseRef.child('articles').push().set(article);
 }

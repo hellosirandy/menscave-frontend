@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Upload, Icon } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 
 let uuid = 0;
@@ -9,14 +9,14 @@ class DynamicInputField extends Component {
     this.newParagraph = this.newParagraph.bind(this);
     this.removeParagraph = this.removeParagraph.bind(this);
     this.state = {
-      paragraphs: [{key: 0, english: 'default english', chinese: 'default chinese'}]
+      paragraphs: [{key: 0, english: 'default english', chinese: 'default chinese', type: 'words'}]
     }
   }
 
-  newParagraph() {
+  newParagraph(type) {
     uuid ++;
     let paragraphs = this.state.paragraphs;
-    paragraphs.push({key: uuid, english: '', chinese: ''});
+    paragraphs.push({key: uuid, english: '', chinese: '', type: type});
     this.setState({
       paragraphs: paragraphs
     });
@@ -43,10 +43,19 @@ class DynamicInputField extends Component {
 
         <Row style={{ marginBottom: 24 }}>
           <Col span={24}>
-            <Button shape="circle" icon="file-add" size="large"
-              style={{ float: 'right' }}onClick={this.newParagraph}></Button>
-            <Button shape="circle" icon="picture" size="large"
-              style={{ marginRight: 10, float: 'right' }}></Button>
+            <div style={{ width: 74, float: 'right' }}>
+
+              <Button style={{ marginRight: 10 }} shape="circle" icon="file-add" size="large"
+                onClick={() => this.newParagraph('words')}>
+              </Button>
+
+              <Upload>
+                <Button shape="circle" icon="picture" size="large">
+
+                </Button>
+              </Upload>
+            </div>
+
           </Col>
         </Row>
       </div>

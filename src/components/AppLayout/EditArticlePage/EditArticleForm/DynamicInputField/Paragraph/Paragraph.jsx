@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
-import { Input, Button } from 'antd';
+import { Row, Col, Input, Button, Form } from 'antd';
 const { TextArea } = Input;
-
+const FormItem = Form.Item;
 
 class Paragraph extends Component {
   constructor(props) {
