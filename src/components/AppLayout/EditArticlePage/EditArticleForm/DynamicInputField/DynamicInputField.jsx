@@ -38,6 +38,7 @@ class DynamicInputField extends Component {
             paragraphNum={index+1}
             paragraph={p}
             removeParagraph = {this.removeParagraph}
+            form={this.props.form}
           />
         )}
 

@@ -9,6 +9,7 @@ class Paragraph extends Component {
   }
 
   render() {
+    const { getFieldDecorator, isFieldTouched, getFieldError } = this.props.form;
     return (
       <div>
         <Row>
@@ -24,14 +25,25 @@ class Paragraph extends Component {
         </Row>
         <Row gutter={20} style={{ marginBottom: 24 }}>
           <Col span={12}>
-            <TextArea rows={5}
-              defaultValue={this.props.paragraph.english}
-              style={{ resize: 'none' }}/>
+            <FormItem label="English">
+              {getFieldDecorator(`paragraph-english-${this.props.paragraphNum}`, {
+                initialValue: this.props.paragraph.english
+              })(
+                <TextArea rows={5}
+                  style={{ resize: 'none' }}/>
+              )}
+            </FormItem>
           </Col>
           <Col span={12}>
-            <TextArea rows={5}
-              defaultValue={this.props.paragraph.chinese}
-              style={{ resize: 'none' }}/>
+            <FormItem label="Chinese">
+              {getFieldDecorator(`paragraph-chinese-${this.props.paragraphNum}`, {
+                initialValue: this.props.paragraph.chinese
+              })(
+                <TextArea rows={5}
+                  style={{ resize: 'none' }}/>
+              )}
+            </FormItem>
+
           </Col>
         </Row>
       </div>

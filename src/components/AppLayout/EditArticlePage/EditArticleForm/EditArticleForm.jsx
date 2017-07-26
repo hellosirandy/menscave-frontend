@@ -9,19 +9,13 @@ class EditArticlePage extends Component {
   constructor(props) {
     super(props)
     this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.saveArticle = this.saveArticle.bind(this);
-  }
-
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields();
   }
 
   handleSelectChange(value) {
     console.log(`selected ${value}`);
   }
 
-  saveArticle(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -30,31 +24,28 @@ class EditArticlePage extends Component {
         console.log(err);
       }
     });
-  }
+  };
 
   render() {
-    const { getFieldDecorator, isFieldTouched, getFieldError } = this.props.form;
-    const titleError = isFieldTouched('title') && getFieldError('title');
+    const { getFieldDecorator, isFieldTouched, getFieldError, getFieldValue } = this.props.form;
     return (
-      <Form onSubmit={this.saveArticle}>
+      <Form onSubmit={this.onSubmit}>
         <Row gutter={20} style={{ marginBottom: 24 }}>
           <Col span={12}>
-            <FormItem label="Title"
-              validateStatus={ titleError ? 'error' : ''}
-              help={ titleError || '' }>
+            <FormItem label="Title" >
               {getFieldDecorator('title', {
                 rules: [{ required: true, message: 'Please input the title!' }],
+                validateTrigger: ['onChange', 'onBlur']
               })(
-                <Input size="large" placeholder="Input article title" />
+
+                <Input size="large" placeholder="Input article title" onBlur={() => {console.log(isFieldTouched('title'));}} />
               )}
             </FormItem>
 
           </Col>
           <Col span={12}>
-            <FormItem label="Category"
-              validateStatus={ '' }
-              help={ false }>
-              {getFieldDecorator('gender', {
+            <FormItem label="Category">
+              {getFieldDecorator('category', {
                 rules: [{ required: true, message: 'Please select a category!' }],
               })(
                 <Select
@@ -71,7 +62,7 @@ class EditArticlePage extends Component {
           </Col>
         </Row>
         <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
-        <DynamicInputField/>
+        <DynamicInputField form={this.props.form}/>
 
         <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
         <Row style={{ marginBottom: 24 }}>
