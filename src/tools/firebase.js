@@ -24,3 +24,17 @@ export function saveArticle(article):Promise<resolve, reject> {
   });
   return promise;
 }
+
+export function fetchArticle(category):Promise<resolve> {
+  let promise;
+  if (category === 'latest') {
+    promise = databaseRef.child('articles').once('value', snapshot => {
+      return Promise.resolve(snapshot);
+    });
+  } else {
+    promise = databaseRef.child('articles').orderByChild('category').equalTo(category).once('value', snapshot => {
+      return Promise.resolve(snapshot);
+    });
+  }
+  return promise;
+}

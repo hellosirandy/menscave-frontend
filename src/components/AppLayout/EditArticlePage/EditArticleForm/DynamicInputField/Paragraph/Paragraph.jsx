@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button, Form } from 'antd';
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 class Paragraph extends Component {
 
@@ -25,8 +26,9 @@ class Paragraph extends Component {
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].english`, {
                 initialValue: this.props.paragraph.english
               })(
-                <Input type="textarea" rows={5}
-                  style={{ resize: 'none' }}/>
+                <TextArea rows={5}
+                  style={{ resize: 'none' }}
+                />
               )}
             </FormItem>
           </Col>
@@ -35,8 +37,9 @@ class Paragraph extends Component {
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].chinese`, {
                 initialValue: this.props.paragraph.chinese
               })(
-                <Input type="textarea" rows={5}
-                  style={{ resize: 'none' }}/>
+                <TextArea rows={5}
+                  style={{ resize: 'none' }}
+                />
               )}
             </FormItem>
 

@@ -9,13 +9,13 @@ class Article extends Component {
   }
   render() {
     return(
-      <Route render={({ history}) => (
+      <Route render={({ history }) => (
         <Card
           loading={false}
           title={this.props.article.title}
           extra={<span>{this.generateTime()}</span>}
           style={{ width: '100%', cursor: 'pointer', marginBottom: 24 }}
-          onClick={() => { history.push('/article/123') }}
+          onClick={() => { history.push(`/article/${this.props.articleKey}`) }}
           >
           <Row gutter={30}>
             <Col span={12}>

@@ -6,10 +6,9 @@ import { Route } from 'react-router-dom';
 const Option = Select.Option;
 const FormItem = Form.Item;
 
-class EditArticlePage extends Component {
+class EditArticleForm extends Component {
   onSubmit = (history, e) => {
     e.preventDefault();
-    console.log(e);
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const paragraphs = values.paragraphs.filter(paragraph => {
@@ -87,4 +86,4 @@ class EditArticlePage extends Component {
   }
 }
 
-export default EditArticlePage;
+export default EditArticleForm;

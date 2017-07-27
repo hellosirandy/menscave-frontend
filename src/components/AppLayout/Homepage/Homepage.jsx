@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 import Article from './Article/Article';
-import { databaseRef } from '../../../tools/firebase';
+import { databaseRef, fetchArticle } from '../../../tools/firebase';
 import { Spin } from 'antd';
 
 class Homepage extends Component  {
@@ -15,13 +15,15 @@ class Homepage extends Component  {
   }
 
   componentDidMount() {
-    databaseRef.child('articles').on('value', this.onArticleChange);
+    fetchArticle(this.state.category).then(res => {
+      this.onArticleChange(res);
+    });
   }
 
   onArticleChange = (snapshot) => {
-    let articles = this.state.articles;
+    let articles = [];
     for (let articleKey in snapshot.val()) {
-      articles.push(snapshot.val()[articleKey]);
+      articles.push({ key: articleKey, value: snapshot.val()[articleKey] });
     };
     this.setState({
       articles: articles,
@@ -32,20 +34,13 @@ class Homepage extends Component  {
   updateCategory = (category) => {
     this.setState({
       category: category,
-      loading: true
+      loading: true,
+      articles: [],
     });
-    databaseRef.child('articles').off('value', this.onArticleChange);
-    this.setState({
-      articles: []
+    fetchArticle(category).then(res => {
+      this.onArticleChange(res);
     });
-    if (category === 'latest') {
-      databaseRef.child('articles').on('value', this.onArticleChange);
-    } else {
-      databaseRef.child('articles').orderByChild('category').equalTo(category).on('value', this.onArticleChange);
-    }
   }
-
-  // const articles
 
   render() {
     const spin = this.state.loading ? ( <div style={{ textAlign: 'center' }}><Spin/></div> ) : null;
@@ -60,7 +55,8 @@ class Homepage extends Component  {
           { this.state.articles.map((article, index) =>
             <Article
               key={index}
-              article={article}
+              articleKey={article.key}
+              article={article.value}
             />
           )}
         </div>
