@@ -10,10 +10,9 @@ const config = {
   messagingSenderId: "1047834325271"
 }
 
-//the root app just in case we need it
 const firebaseApp = firebase.initializeApp(config);
 const database = firebaseApp.database();
-const databaseRef = database.ref();
+export const databaseRef = database.ref();
 
 export function saveArticle(article):Promise<resolve, reject> {
   const promise = databaseRef.child('articles').push().set(article, function(err) {
@@ -24,10 +23,4 @@ export function saveArticle(article):Promise<resolve, reject> {
     }
   });
   return promise;
-}
-
-export function fetchArticle(action):Promise<resolve, reject> {
-  databaseRef.child('articles').on('child_added', snapshot => {
-    action(snapshot);
-  });
 }

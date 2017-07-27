@@ -3,17 +3,11 @@ import { Menu, Button } from 'antd';
 import { Route } from 'react-router-dom';
 
 class CategoryMenu extends Component {
-  constructor() {
-    super();
-    this.state = {
-      current: 'new',
-    }
+  constructor(props) {
+    super(props);
   }
-
   handleClick = (e) => {
-    this.setState({
-      current: e.key,
-    });
+    this.props.updateCategory(e.key);
   }
 
   render() {
@@ -29,11 +23,11 @@ class CategoryMenu extends Component {
         </div>
         <Menu
           onClick={this.handleClick}
-          selectedKeys={[this.state.current]}
+          selectedKeys={[this.props.category]}
           mode="horizontal"
           theme="light"
         >
-          <Menu.Item key="new">
+          <Menu.Item key="latest">
             Latest
           </Menu.Item>
           <Menu.Item key="basketball">

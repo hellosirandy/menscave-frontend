@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Upload, Icon, Form } from 'antd';
+import { Row, Col, Button, Upload, Form } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 const FormItem = Form.Item;
 
