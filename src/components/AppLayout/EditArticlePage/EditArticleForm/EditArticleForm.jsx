@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Select, Input, Row, Col, Button, Form } from 'antd';
+import { Select, Input, Row, Col, Button, Form, message } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
+import { saveArticle } from '../../../../tools/firebase';
 const Option = Select.Option;
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
 class EditArticlePage extends Component {
   constructor(props) {
-    super(props)
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    super(props);
   }
 
-  handleSelectChange(value) {
+  handleSelectChange = (value) => {
     console.log(`selected ${value}`);
   }
 
@@ -19,7 +19,12 @@ class EditArticlePage extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        values['updateTime'] = new Date().toString();
+        saveArticle(values).then((res) => {
+          message.success('The article has been saved.', 3);
+        }).catch((res) => {
+          console.log(res);
+        });
       } else {
         console.log(err);
       }
@@ -38,7 +43,7 @@ class EditArticlePage extends Component {
                 validateTrigger: ['onChange', 'onBlur']
               })(
 
-                <Input size="large" placeholder="Input article title" onBlur={() => {console.log(isFieldTouched('title'));}} />
+                <Input size="large" placeholder="Input article title"/>
               )}
             </FormItem>
 

@@ -11,7 +11,6 @@ class CategoryMenu extends Component {
   }
 
   handleClick = (e) => {
-    console.log('click ', e);
     this.setState({
       current: e.key,
     });
@@ -19,33 +18,37 @@ class CategoryMenu extends Component {
 
   render() {
     return(
-      <Menu
-        onClick={this.handleClick}
-        selectedKeys={[this.state.current]}
-        mode="horizontal"
-        theme="light"
-      >
-        <Menu.Item key="new">
-          Latest
-        </Menu.Item>
-        <Menu.Item key="basketball">
-          Basketball
-        </Menu.Item>
-        <Menu.Item key="baseball">
-          Baseball
-        </Menu.Item>
-        <Menu.Item key="sneakers">
-          Sneakers
-        </Menu.Item>
-        <div style={{ float: 'right', marginRight: 24 }}>
+      <div>
+        <div style={{ float: 'right', marginRight: 24, marginTop: 8 }}>
           <Route
             render={({ history }) => (
-              <Button type="dashed" shape="circle" icon="plus" size="Large"
+              <Button type="dashed" shape="circle" icon="plus" size="large"
                 onClick={() => {history.push('/admin/newarticle')}}/>
             )}
           />
         </div>
-      </Menu>
+        <Menu
+          onClick={this.handleClick}
+          selectedKeys={[this.state.current]}
+          mode="horizontal"
+          theme="light"
+        >
+          <Menu.Item key="new">
+            Latest
+          </Menu.Item>
+          <Menu.Item key="basketball">
+            Basketball
+          </Menu.Item>
+          <Menu.Item key="baseball">
+            Baseball
+          </Menu.Item>
+          <Menu.Item key="sneakers">
+            Sneakers
+          </Menu.Item>
+
+        </Menu>
+
+      </div>
     )
   }
 }

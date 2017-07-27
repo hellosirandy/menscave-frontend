@@ -11,35 +11,35 @@ class Paragraph extends Component {
   render() {
     const { getFieldDecorator, isFieldTouched, getFieldError } = this.props.form;
     return (
-      <div>
-        <Row>
+      <div style={{ marginBottom: 48 }}>
+        <Row style={{ height: 40, borderBottom: '1px dashed #cfcfcf' }}>
           <Col span={12}>
-            <h3 style={{ marginBottom: 10 }}>Paragraph {this.props.paragraphNum}</h3>
+            <h3 style={{ lineHeight: '40px' }} >Paragraph {this.props.paragraphNum}</h3>
           </Col>
           <Col span={12}>
             <Button type="danger" shape="circle" icon="minus" size="small"
-              style={{ float: 'right' }}
+              style={{ float: 'right', marginTop: 9 }}
               onClick={() => this.props.removeParagraph(this.props.paragraph.key)}
             />
           </Col>
         </Row>
-        <Row gutter={20} style={{ marginBottom: 24 }}>
+        <Row gutter={20} style={{ height: 'auto' }}>
           <Col span={12}>
             <FormItem label="English">
-              {getFieldDecorator(`paragraph-english-${this.props.paragraphNum}`, {
+              {getFieldDecorator(`paragraphs[${this.props.paragraphNum-1}].english`, {
                 initialValue: this.props.paragraph.english
               })(
-                <TextArea rows={5}
+                <Input type="textarea" rows={5}
                   style={{ resize: 'none' }}/>
               )}
             </FormItem>
           </Col>
           <Col span={12}>
             <FormItem label="Chinese">
-              {getFieldDecorator(`paragraph-chinese-${this.props.paragraphNum}`, {
+              {getFieldDecorator(`paragraphs[${this.props.paragraphNum-1}].chinese`, {
                 initialValue: this.props.paragraph.chinese
               })(
-                <TextArea rows={5}
+                <Input type="textarea" rows={5}
                   style={{ resize: 'none' }}/>
               )}
             </FormItem>

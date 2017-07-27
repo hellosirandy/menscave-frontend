@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Upload, Icon } from 'antd';
+import { Row, Col, Button, Upload, Icon, Form } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
+const FormItem = Form.Item;
 
 let uuid = 0;
 class DynamicInputField extends Component {
@@ -32,15 +33,17 @@ class DynamicInputField extends Component {
   render() {
     return (
       <div>
-        { this.state.paragraphs.map((p, index) =>
-          <Paragraph
-            key={p.key}
-            paragraphNum={index+1}
-            paragraph={p}
-            removeParagraph = {this.removeParagraph}
-            form={this.props.form}
-          />
-        )}
+        <FormItem>
+          { this.state.paragraphs.map((p, index) =>
+            <Paragraph
+              key={p.key}
+              paragraphNum={index+1}
+              paragraph={p}
+              removeParagraph = {this.removeParagraph}
+              form={this.props.form}
+            />
+          )}
+        </FormItem>
 
         <Row style={{ marginBottom: 24 }}>
           <Col span={24}>

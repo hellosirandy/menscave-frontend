@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/app';
 
-let config = {
+const config = {
   apiKey: "AIzaSyB3ZbI_u_TywJCbNz1sMp5-d6bVVldSovc",
   authDomain: "menscave-620ba.firebaseapp.com",
   databaseURL: "https://menscave-620ba.firebaseio.com",
@@ -15,6 +15,19 @@ const firebaseApp = firebase.initializeApp(config);
 const database = firebaseApp.database();
 const databaseRef = database.ref();
 
-export function saveArticle(article) {
-  databaseRef.child('articles').push().set(article);
+export function saveArticle(article):Promise<resolve, reject> {
+  const promise = databaseRef.child('articles').push().set(article, function(err) {
+    if (!err) {
+      return Promise.resolve('OK');
+    } else {
+      return Promise.reject(err);
+    }
+  });
+  return promise;
+}
+
+export function fetchArticle(action):Promise<resolve, reject> {
+  databaseRef.child('articles').on('child_added', snapshot => {
+    action(snapshot);
+  });
 }
