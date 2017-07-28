@@ -19,10 +19,12 @@ class AppLayout extends Component {
         <Content
           style={{ width: '70%', margin: 'auto' }}>
           <Switch>
-            <Route exact path='/home' component={ Homepage }/>
             <Route exact path='/article/:article' component={ ArticlePage }/>
             <Route exact path='/admin/newarticle' component={ EditArticlePage }/>
+            <Route exact path='/home' component={ Homepage }/>
             <Redirect from='/' to='/home' />
+            {/* <Redirect exact from='/#/article/:article' to='/article/article' /> */}
+            {/* <Redirect exact from='/#/admin/newarticle' to='/admin/newarticle' /> */}
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

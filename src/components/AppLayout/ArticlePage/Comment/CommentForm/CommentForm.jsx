@@ -14,7 +14,7 @@ class CommentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.updateTime = (new Date()).toString();
+        values.updateTime = (new Date()).getTime();
         leaveComment(this.props.articleKey, values).then(res => {
           this.props.handleClickOutside();
           message.success('You have leaved a comment', 3);

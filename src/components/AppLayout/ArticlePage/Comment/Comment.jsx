@@ -10,7 +10,7 @@ class Comment extends Component {
       commentFocus: false,
       comments: []
     }
-    databaseRef.child('articles').child(props.articleKey).child('comments').on('child_added', this.commentAdded);
+    databaseRef.child('articles').child(props.articleKey).child('comments').orderByChild('updateTime').on('child_added', this.commentAdded);
   }
 
   handleCommentClickOutside = () => {
@@ -65,6 +65,7 @@ class Comment extends Component {
       )
     });
     return (
+      
       <div>
         <h3>Comment</h3>
         <div style={{
