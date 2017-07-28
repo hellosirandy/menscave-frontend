@@ -27,8 +27,8 @@ class CategoryMenu extends Component {
           mode="horizontal"
           theme="light"
         >
-          <Menu.Item key="latest">
-            Latest
+          <Menu.Item key="all">
+            All
           </Menu.Item>
           <Menu.Item key="basketball">
             Basketball

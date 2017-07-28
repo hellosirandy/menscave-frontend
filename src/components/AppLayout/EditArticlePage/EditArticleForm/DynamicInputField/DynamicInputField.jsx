@@ -10,7 +10,7 @@ class DynamicInputField extends Component {
     this.newParagraph = this.newParagraph.bind(this);
     this.removeParagraph = this.removeParagraph.bind(this);
     this.state = {
-      paragraphs: [{key: 0, english: 'default english', chinese: 'default chinese', type: 'words'}]
+      paragraphs: [{key: 0, english: '', chinese: '', type: 'words'}]
     }
   }
 

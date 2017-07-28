@@ -6,6 +6,16 @@
         "source" : "/home",
         "destination" : "/#/home",
         "type" : 301
+      },
+      {
+        "source" : "/article/:articleKey",
+        "destination" : "/#/article/:articleKey",
+        "type" : 301
+      },
+      {
+        "source" : "/admin/newarticle",
+        "destination" : "/#/home",
+        "type" : 301
       }
     ]
   }

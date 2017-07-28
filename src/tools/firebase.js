@@ -27,7 +27,7 @@ export function saveArticle(article):Promise<resolve, reject> {
 
 export function fetchArticle(category):Promise<resolve> {
   let promise;
-  if (category === 'latest') {
+  if (category === 'all') {
     promise = databaseRef.child('articles').once('value', snapshot => {
       return Promise.resolve(snapshot);
     });

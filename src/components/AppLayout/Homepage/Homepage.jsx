@@ -8,7 +8,7 @@ class Homepage extends Component  {
   constructor(props) {
     super(props);
     this.state = {
-      category: 'latest',
+      category: 'all',
       articles: [],
       loading: true
     }
