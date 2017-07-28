@@ -1,5 +1,12 @@
 {
   "hosting": {
-    "public": "build"
+    "public": "build",
+    "redirects": [
+      {
+        "source" : "/home",
+        "destination" : "/#/home",
+        "type" : 301
+      }
+    ]
   }
 }
