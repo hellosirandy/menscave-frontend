@@ -35,7 +35,7 @@ class ArticlePage extends Component {
             />
           )}
         </div>
-        {/* <Comment/> */}
+        <Comment articleKey={this.props.match.params.article}/>
       </div>
     )
   }

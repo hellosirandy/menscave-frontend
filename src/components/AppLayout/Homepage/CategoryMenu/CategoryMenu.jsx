@@ -3,9 +3,6 @@ import { Menu, Button } from 'antd';
 import { Route } from 'react-router-dom';
 
 class CategoryMenu extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleClick = (e) => {
     this.props.updateCategory(e.key);
   }

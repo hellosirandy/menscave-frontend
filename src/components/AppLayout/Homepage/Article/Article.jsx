@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 class Article extends Component {
   generateTime = () => {
     const time = new Date(this.props.article.updateTime);
-    return `${time.getMonth()+1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}`;
+    return `${processDateString(time.getMonth()+1)}/${processDateString(time.getDate())} ${processDateString(time.getHours())}:${processDateString(time.getMinutes())}`;
   }
   render() {
     return(
@@ -29,13 +29,17 @@ class Article extends Component {
           <hr/>
           <br/>
           <div style={{ float: 'right', fontSize: 16 }}>
-            <Icon type="message" /> 32
+            <Icon type="message" /> { this.props.article.comments ? Object.keys(this.props.article.comments).length: 0 }
           </div>
         </Card>
       )} />
 
     )
   }
+}
+
+function processDateString(number) {
+  return number.toString().length === 2 ? number : `0${number}`;
 }
 
 export default Article;

@@ -38,3 +38,13 @@ export function fetchArticle(category):Promise<resolve> {
   }
   return promise;
 }
+
+export function leaveComment(articleKey, body):Promise<resolve, reject> {
+  console.log(body);
+  const promise = databaseRef.child('articles').child(articleKey).child('comments').push().set(body).then(err => {
+    Promise.resolve('OK');
+  }).catch(res => {
+    Promise.reject('ERROR');
+  });
+  return promise;
+}
