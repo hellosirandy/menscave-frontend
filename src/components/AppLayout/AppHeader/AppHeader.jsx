@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 class AppHeader extends Component {
   render() {
     return(
-      <div style={{ width: '70%', margin: 'auto' }}>
+      <div style={{ width: '70%', margin: 'auto', maxWidth: '1000px' }}>
         <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>
           <Route
             render={({ history }) => (

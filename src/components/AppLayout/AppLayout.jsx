@@ -17,7 +17,7 @@ class AppLayout extends Component {
           <AppHeader/>
         </Header>
         <Content
-          style={{ width: '70%', margin: 'auto' }}>
+          style={{ width: '70%', margin: 'auto', maxWidth: '1000px' }}>
           <Switch>
             <Route exact path='/article/:article' component={ ArticlePage }/>
             <Route exact path='/admin/newarticle' component={ EditArticlePage }/>
@@ -27,7 +27,7 @@ class AppLayout extends Component {
             {/* <Redirect exact from='/#/admin/newarticle' to='/admin/newarticle' /> */}
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{ textAlign: 'center', maxWidth: '1000px' }}>
           Men's Cave ©2017 Created by Alan Chien
 
         </Footer>
