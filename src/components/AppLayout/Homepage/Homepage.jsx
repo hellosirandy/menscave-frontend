@@ -25,6 +25,7 @@ class Homepage extends Component  {
     for (let articleKey in snapshot.val()) {
       articles.push({ key: articleKey, value: snapshot.val()[articleKey] });
     };
+    articles = articles.reverse();
     this.setState({
       articles: articles,
       loading: false

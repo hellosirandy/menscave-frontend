@@ -28,7 +28,7 @@ export function saveArticle(article):Promise<resolve, reject> {
 export function fetchArticle(category):Promise<resolve> {
   let promise;
   if (category === 'all') {
-    promise = databaseRef.child('articles').once('value', snapshot => {
+    promise = databaseRef.child('articles').orderByChild('updateTime').once('value', snapshot => {
       return Promise.resolve(snapshot);
     });
   } else {
@@ -41,7 +41,7 @@ export function fetchArticle(category):Promise<resolve> {
 
 export function leaveComment(articleKey, body):Promise<resolve, reject> {
   console.log(body);
-  const promise = databaseRef.child('articles').child(articleKey).child('comments').push().set(body).then(err => {
+  const promise = databaseRef.child(`articles/${articleKey}/comments`).push().set(body).then(err => {
     Promise.resolve('OK');
   }).catch(res => {
     Promise.reject('ERROR');
