@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Button } from 'antd';
-import { Route } from 'react-router-dom';
+import { Menu } from 'antd';
 
 class CategoryMenu extends Component {
   handleClick = (e) => {
@@ -9,37 +8,25 @@ class CategoryMenu extends Component {
 
   render() {
     return(
-      <div>
-        <div style={{ float: 'right', marginRight: 24, marginTop: 8 }}>
-          <Route
-            render={({ history }) => (
-              <Button type="dashed" shape="circle" icon="plus" size="large"
-                onClick={() => {history.push('/admin/newarticle')}}/>
-            )}
-          />
-        </div>
-        <Menu
-          onClick={this.handleClick}
-          selectedKeys={[this.props.category]}
-          mode="horizontal"
-          theme="light"
-        >
-          <Menu.Item key="all">
-            All
-          </Menu.Item>
-          <Menu.Item key="basketball">
-            Basketball
-          </Menu.Item>
-          <Menu.Item key="baseball">
-            Baseball
-          </Menu.Item>
-          <Menu.Item key="sneakers">
-            Sneakers
-          </Menu.Item>
-
-        </Menu>
-
-      </div>
+      <Menu
+        onClick={this.handleClick}
+        selectedKeys={[this.props.category]}
+        mode="horizontal"
+        theme="light"
+      >
+        <Menu.Item key="all">
+          All
+        </Menu.Item>
+        <Menu.Item key="basketball">
+          Basketball
+        </Menu.Item>
+        <Menu.Item key="baseball">
+          Baseball
+        </Menu.Item>
+        <Menu.Item key="sneakers">
+          Sneakers
+        </Menu.Item>
+      </Menu>
     )
   }
 }

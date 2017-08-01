@@ -6,10 +6,24 @@ import Homepage from './Homepage/Homepage';
 import ArticlePage from './ArticlePage/ArticlePage';
 import EditArticlePage from './EditArticlePage/EditArticlePage';
 import LoginPage from './LoginPage/LoginPage';
+import './AppLayout.css';
 
 const { Header, Content, Footer } = Layout;
 
 class AppLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screenWidth: 0,
+      screenHeight: 0,
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height
+    });
+  }
   render() {
     return (
       <Layout style={{ minHeight: '100%' }}>
@@ -17,8 +31,7 @@ class AppLayout extends Component {
           style={{ padding: 0 }}>
           <AppHeader/>
         </Header>
-        <Content
-          style={{ width: '70%', margin: 'auto', maxWidth: '1000px' }}>
+        <Content className="layout-content">
           <Switch>
             <Route exact path='/article/:article' component={ ArticlePage }/>
             <Route exact path='/admin/newarticle' component={ EditArticlePage }/>

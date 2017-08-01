@@ -8,7 +8,7 @@ class Paragraph extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div style={{ marginBottom: 48 }}>
+      <div style={{ marginBottom: 24 }}>
         <Row style={{ height: 40, borderBottom: '1px dashed #cfcfcf' }}>
           <Col span={12}>
             <h3 style={{ lineHeight: '40px' }} >Paragraph {this.props.paragraphNum}</h3>
@@ -21,8 +21,8 @@ class Paragraph extends Component {
           </Col>
         </Row>
         <Row gutter={20} style={{ height: 'auto' }}>
-          <Col span={12}>
-            <FormItem label="English">
+          <Col span={ window.screen.width > 600 ? 12: 24 }>
+            <FormItem label="English" style={{ marginBottom: 0 }}>
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].english`, {
                 initialValue: this.props.paragraph.english
               })(
@@ -32,8 +32,8 @@ class Paragraph extends Component {
               )}
             </FormItem>
           </Col>
-          <Col span={12}>
-            <FormItem label="Chinese">
+          <Col span={ window.screen.width > 600 ? 12: 24 }>
+            <FormItem label="Chinese" style={{ marginBottom: 0 }}>
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].chinese`, {
                 initialValue: this.props.paragraph.chinese
               })(

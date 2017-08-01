@@ -35,7 +35,7 @@ class EditArticleForm extends Component {
         render={({ history }) => (
           <Form onSubmit={this.onSubmit.bind(this, history)}>
             <Row gutter={20} style={{ marginBottom: 24 }}>
-              <Col span={12}>
+              <Col span={ window.screen.width > 600 ? 12: 24 }>
                 <FormItem label="Title" >
                   {getFieldDecorator('title', {
                     rules: [{ required: true, message: 'Please input the title!' }],
@@ -47,7 +47,7 @@ class EditArticleForm extends Component {
                 </FormItem>
 
               </Col>
-              <Col span={12}>
+              <Col span={ window.screen.width > 600 ? 12: 24 }>
                 <FormItem label="Category">
                   {getFieldDecorator('category', {
                     rules: [{ required: true, message: 'Please select a category!' }],
