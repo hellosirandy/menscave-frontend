@@ -28,8 +28,8 @@ class AppHeader extends Component {
 
   render() {
     const Desktop = ({ children }) => <Responsive minWidth={992} children={children} />;
-    const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={992} children={children} />;
-    const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} />;
+    const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={991} children={children} />;
+    const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
     const content = (
       <div>
         <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>

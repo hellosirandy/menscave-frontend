@@ -8,8 +8,8 @@ import Responsive from 'react-responsive';
 class AppContent extends Component {
   render() {
     const Desktop = ({ children }) => <Responsive minWidth={992} children={children} />;
-    const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={992} children={children} />;
-    const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} />;
+    const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={991} children={children} />;
+    const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
     const route = (
       <Switch>
         <Route exact path='/article/:article' component={ ArticlePage }/>
