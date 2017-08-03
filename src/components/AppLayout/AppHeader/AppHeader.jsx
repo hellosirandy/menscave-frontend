@@ -3,20 +3,20 @@ import Logo from './logo.png';
 import { Route, Link } from 'react-router-dom';
 import { Button, Menu, Dropdown } from 'antd';
 import './AppHeader.css';
+import Responsive from 'react-responsive';
 
 class AppHeader extends Component {
-  handleMenuClick = (e) => {
-    console.log(e);
-  }
   render() {
-
+    const Desktop = ({ children }) => <Responsive minWidth={992} children={children} />;
+    const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={992} children={children} />;
+    const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} />;
     const menu = (
       <Menu>
         <Menu.Item key="1"><Link to='/login'>Login</Link></Menu.Item>
       </Menu>
     );
-    return(
-      <div className="layout-header">
+    const content = (
+      <div>
         <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>
           <Route
             render={({ history }) => (
@@ -42,8 +42,25 @@ class AppHeader extends Component {
             />
           </Dropdown>
         </div>
-
-
+      </div>
+    )
+    return(
+      <div>
+        <Desktop>
+          <div style={{ width: '70%', margin: 'auto', maxWidth: '1000px'}}>
+            {content}
+          </div>
+        </Desktop>
+        <Tablet>
+          <div style={{ width: '85%', margin: 'auto' }}>
+            {content}
+          </div>
+        </Tablet>
+        <Mobile>
+          <div style={{ width: '100%', padding: '0 12px'}}>
+            {content}
+          </div>
+        </Mobile>
       </div>
 
     )

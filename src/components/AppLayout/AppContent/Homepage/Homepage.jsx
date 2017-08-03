@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 import Article from './Article/Article';
-import { fetchArticle } from '../../../tools/firebase';
+import { fetchArticle } from '../../../../tools/firebase';
 import { Spin } from 'antd';
 
 class Homepage extends Component  {

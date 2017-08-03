@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button, Form, message } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
-import { saveArticle } from '../../../../tools/firebase';
+import { saveArticle } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -35,19 +35,17 @@ class EditArticleForm extends Component {
         render={({ history }) => (
           <Form onSubmit={this.onSubmit.bind(this, history)}>
             <Row gutter={20} style={{ marginBottom: 24 }}>
-              <Col span={ window.screen.width > 600 ? 12: 24 }>
+              <Col xs={{ span: 24 }} sm={{ span: 12 }}>
                 <FormItem label="Title" >
                   {getFieldDecorator('title', {
                     rules: [{ required: true, message: 'Please input the title!' }],
                     validateTrigger: ['onChange', 'onBlur']
                   })(
-
                     <Input size="large" placeholder="Input article title"/>
                   )}
                 </FormItem>
-
               </Col>
-              <Col span={ window.screen.width > 600 ? 12: 24 }>
+              <Col xs={{ span: 24 }} sm={{ span: 12 }}>
                 <FormItem label="Category">
                   {getFieldDecorator('category', {
                     rules: [{ required: true, message: 'Please select a category!' }],
@@ -61,7 +59,6 @@ class EditArticleForm extends Component {
                     </Select>
                   )}
                 </FormItem>
-
               </Col>
             </Row>
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>

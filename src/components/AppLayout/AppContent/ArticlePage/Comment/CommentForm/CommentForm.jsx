@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Form, Button, message } from 'antd';
 import onClickOutside from 'react-onclickoutside';
-import { leaveComment } from '../../../../../tools/firebase';
+import { leaveComment } from '../../../../../../tools/firebase';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 

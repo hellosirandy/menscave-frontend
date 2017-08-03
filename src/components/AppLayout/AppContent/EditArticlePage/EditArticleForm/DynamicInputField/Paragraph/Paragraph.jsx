@@ -21,7 +21,7 @@ class Paragraph extends Component {
           </Col>
         </Row>
         <Row gutter={20} style={{ height: 'auto' }}>
-          <Col span={ window.screen.width > 600 ? 12: 24 }>
+          <Col xs={{ span: 24 }} sm={{ span: 12 }}>
             <FormItem label="English" style={{ marginBottom: 0 }}>
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].english`, {
                 initialValue: this.props.paragraph.english
@@ -32,7 +32,7 @@ class Paragraph extends Component {
               )}
             </FormItem>
           </Col>
-          <Col span={ window.screen.width > 600 ? 12: 24 }>
+          <Col xs={{ span: 24 }} sm={{ span: 12 }}>
             <FormItem label="Chinese" style={{ marginBottom: 0 }}>
               {getFieldDecorator(`paragraphs[${this.props.paragraph.key}].chinese`, {
                 initialValue: this.props.paragraph.chinese
@@ -42,7 +42,6 @@ class Paragraph extends Component {
                 />
               )}
             </FormItem>
-
           </Col>
         </Row>
       </div>

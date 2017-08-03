@@ -18,10 +18,10 @@ class Article extends Component {
           onClick={() => { history.push(`/article/${this.props.articleKey}`) }}
           >
           <Row gutter={30}>
-            <Col span={ window.screen.width > 600 ? 12 : 24 } style={ window.screen.width > 600 ? {} : { marginBottom: 12 }}>
+            <Col xs={{ span: 24 }} sm={{ span: 12 }} style={{ marginBottom: 12 }}>
               <p style={{ fontSize: 16}}>{this.props.article.paragraphs[0].english}</p>
             </Col>
-            <Col span={ window.screen.width > 600 ? 12 : 24 }>
+            <Col xs={{ span: 24 }} sm={{ span: 12 }} style={{ marginBottom: 12 }}>
               <p style={{ fontSize: 16}}>{this.props.article.paragraphs[0].chinese}</p>
             </Col>
           </Row>

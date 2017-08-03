@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { databaseRef } from '../../../tools/firebase';
+import { databaseRef } from '../../../../tools/firebase';
 import { Spin } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 import Comment from './Comment/Comment';

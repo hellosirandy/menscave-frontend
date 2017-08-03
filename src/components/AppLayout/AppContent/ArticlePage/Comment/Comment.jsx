@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Form, Icon } from 'antd';
 import CommentForm from './CommentForm/CommentForm';
-import { databaseRef } from '../../../../tools/firebase';
+import { databaseRef } from '../../../../../tools/firebase';
 
 class Comment extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class Comment extends Component {
       )
     });
     return (
-      
+
       <div>
         <h3>Comment</h3>
         <div style={{
