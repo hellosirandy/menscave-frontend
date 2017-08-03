@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
 import Logo from './logo.png';
-import { Route, Link } from 'react-router-dom';
-import { Button, Menu, Dropdown } from 'antd';
-import './AppHeader.css';
+import { Route } from 'react-router-dom';
+import { Button } from 'antd';
 import Responsive from 'react-responsive';
+import DropdownMenu from './DropdownMenu/DropdownMenu';
+import { LoginModal } from './LoginModal/LoginModal'
 
 class AppHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false,
+    }
+  }
+
+  onLogin = () => {
+    const form = this.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        console.log('err');
+      } else {
+        console.log('Received values of form: ', values);
+        this.setState({ modalOpen: false });
+      }
+    });
+  }
+
   render() {
     const Desktop = ({ children }) => <Responsive minWidth={992} children={children} />;
     const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={992} children={children} />;
     const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} />;
-    const menu = (
-      <Menu>
-        <Menu.Item key="1"><Link to='/login'>Login</Link></Menu.Item>
-      </Menu>
-    );
     const content = (
       <div>
         <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>
@@ -35,13 +50,15 @@ class AppHeader extends Component {
                 onClick={() => {history.push('/admin/newarticle')}}/>
             )}
           />
-          <Dropdown overlay={menu} placement="bottomRight" trigger={['click']}>
-            <Button icon="user" shape="circle" type="dashed"
-              style={{ backgroundColor: 'transparent' }}
-              ghost
-            />
-          </Dropdown>
+          <DropdownMenu showModal={ () => { this.setState({ modalOpen: true })} }/>
+          <LoginModal
+            ref={(form) => { this.form = form }}
+            visible={ this.state.modalOpen }
+            onCancel={() => { this.setState({ modalOpen: false }) }}
+            onLogin={this.onLogin}
+          />
         </div>
+
       </div>
     )
     return(

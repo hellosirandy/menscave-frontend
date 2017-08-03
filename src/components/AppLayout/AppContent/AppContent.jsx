@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Homepage from './Homepage/Homepage';
 import ArticlePage from './ArticlePage/ArticlePage';
 import EditArticlePage from './EditArticlePage/EditArticlePage';
-import LoginPage from './LoginPage/LoginPage';
 import Responsive from 'react-responsive';
 
 class AppContent extends Component {
@@ -16,7 +15,6 @@ class AppContent extends Component {
         <Route exact path='/article/:article' component={ ArticlePage }/>
         <Route exact path='/admin/newarticle' component={ EditArticlePage }/>
         <Route exact path='/home' component={ Homepage }/>
-        <Route exact path='/login' component={ LoginPage }/>
         <Redirect from='/' to='/home' />
       </Switch>
     )
