@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Logo from './logo.png';
 import { Route } from 'react-router-dom';
-import { Button, message } from 'antd';
+import { Button, message, Form } from 'antd';
 import Responsive from 'react-responsive';
 import DropdownMenu from './DropdownMenu/DropdownMenu';
-import { LoginModal } from './LoginModal/LoginModal';
+import LoginModal from './LoginModal/LoginModal';
 import { auth } from '../../../tools/firebase';
 
 class AppHeader extends Component {
@@ -19,32 +19,6 @@ class AppHeader extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       this.setState({ loggedIn: user ? true : false });
-    });
-  }
-
-  onLogin = () => {
-    const form = this.form;
-    form.validateFields((err, values) => {
-      if (!err) {
-        auth.signInWithEmailAndPassword(values.username, values.password).then(user => {
-          this.setState({ modalOpen: false });
-          message.success('You are now logged in', 3);
-        }).catch(err => {
-          if (err.code === 'auth/wrong-password') {
-            form.setFields({
-              password: {
-                errors: [new Error(err.message)],
-              },
-            });
-          } else if (err.code === 'auth/user-not-found') {
-            form.setFields({
-              username: {
-                errors: [new Error(err.message)],
-              },
-            });
-          }
-        });
-      }
     });
   }
 
@@ -64,6 +38,7 @@ class AppHeader extends Component {
     const Tablet = ({ children }) => <Responsive minWidth={768} maxWidth={991} children={children} />;
     const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
     const { loggedIn } = this.state;
+    const Login = Form.create()(LoginModal);
     const content = (
       <div>
         <div style={{ width: 40, height: 40, margin: '12px 24px 12px 0', float: 'left' }}>
@@ -87,11 +62,10 @@ class AppHeader extends Component {
           }
 
           <DropdownMenu handleLoginLogoutClick={ this.handleLoginLogoutClick } loggedIn={ loggedIn }/>
-          <LoginModal
+          <Login
             ref={(form) => { this.form = form }}
             visible={ this.state.modalOpen }
             onCancel={() => { this.setState({ modalOpen: false }) }}
-            onLogin={this.onLogin}
           />
         </div>
 

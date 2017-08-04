@@ -15,6 +15,7 @@ class AppLayout extends Component {
         </Header>
         <Content>
           <AppContent/>
+          
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Men's Cave ©2017 Created by Alan Chien

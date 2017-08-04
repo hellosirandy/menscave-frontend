@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Form, Button, message } from 'antd';
 import onClickOutside from 'react-onclickoutside';
-import { leaveComment } from '../../../../../../tools/firebase';
+import { databaseRef } from '../../../../../../tools/firebase';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
@@ -15,11 +15,11 @@ class CommentForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.updateTime = (new Date()).getTime();
-        leaveComment(this.props.articleKey, values).then(res => {
+        databaseRef.child(`articles/${this.props.articleKey}/comments`).push().set(values).then(err => {
           this.props.handleClickOutside();
           message.success('You have leaved a comment', 3);
         }).catch(res => {
-          console.log(res);
+            console.log(res);
         });
       } else {
         console.log(err);
@@ -32,7 +32,7 @@ class CommentForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <FormItem label="Name" >
-          {getFieldDecorator('name', {
+          {getFieldDecorator('commenter', {
             rules: [{ required: true, message: 'Please input a name.' }],
             validateTrigger: ['onChange', 'onBlur']
           })(
@@ -43,7 +43,7 @@ class CommentForm extends Component {
           )}
         </FormItem>
         <FormItem label="Comment" >
-          {getFieldDecorator('comment', {
+          {getFieldDecorator('content', {
             rules: [{ required: true, message: 'Please input your content.' }],
             validateTrigger: ['onChange', 'onBlur']
           })(
