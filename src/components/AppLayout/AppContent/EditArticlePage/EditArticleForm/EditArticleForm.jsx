@@ -16,7 +16,11 @@ class EditArticleForm extends Component {
         });
         values.paragraphs = paragraphs;
         values['updateTime'] = new Date().toString();
-        saveArticle(values).then((res) => {
+        const body = {
+          article: values,
+          status: this.props.article ? this.props.articleKey : 'new',
+        }
+        saveArticle(body).then((res) => {
           message.success('The article has been saved.', 3);
           history.push('/home');
         }).catch((res) => {
@@ -39,7 +43,8 @@ class EditArticleForm extends Component {
                 <FormItem label="Title" >
                   {getFieldDecorator('title', {
                     rules: [{ required: true, message: 'Please input the title!' }],
-                    validateTrigger: ['onChange', 'onBlur']
+                    validateTrigger: ['onChange', 'onBlur'],
+                    initialValue: this.props.article ? this.props.article.title : '',
                   })(
                     <Input size="large" placeholder="Input article title"/>
                   )}
@@ -47,7 +52,10 @@ class EditArticleForm extends Component {
               </Col>
               <Col xs={{ span: 24 }} sm={{ span: 12 }}>
                 <FormItem label="Category">
-                  {getFieldDecorator('category', {
+                  {getFieldDecorator('category', this.props.article ? {
+                    rules: [{ required: true, message: 'Please select a category!' }],
+                    initialValue: this.props.article ? this.props.article.category : null,
+                  } : {
                     rules: [{ required: true, message: 'Please select a category!' }],
                   })(
                     <Select
@@ -62,7 +70,7 @@ class EditArticleForm extends Component {
               </Col>
             </Row>
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
-            <DynamicInputField form={this.props.form}/>
+            <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/>
 
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
             <Row style={{ marginBottom: 24 }}>

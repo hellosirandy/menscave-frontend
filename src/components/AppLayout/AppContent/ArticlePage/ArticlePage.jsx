@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { databaseRef } from '../../../../tools/firebase';
-import { Spin } from 'antd';
+import { Spin, Icon, Popover } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 import Comment from './Comment/Comment';
+import { Route } from 'react-router-dom';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -23,10 +24,28 @@ class ArticlePage extends Component {
   render() {
     const spin = this.state.loading ? (<div style={{ textAlign: 'center' }}><Spin/></div>) : null;
     const paragraphs = this.state.article.paragraphs ? this.state.article.paragraphs : [];
+    const content = (
+      <div>
+        <h3>Edit this article</h3>
+      </div>
+    );
     return(
       <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
         {spin}
-        <h3 style={{ fontSize: '2.2rem'}}>{ this.state.article.title} </h3>
+        <h3 style={{ fontSize: '2.2rem'}}>
+          { this.state.article.title}
+
+            <Route
+              render={({history}) => (
+                <Popover content={content} placement="right" >
+                  <Icon type="edit"
+                    style={{ fontSize: '1.6rem', color: '#949494', cursor: 'pointer', marginLeft: '10px' }}
+                    onClick={() => {history.push(`/admin/editarticle/${this.props.match.params.article}`)}}
+                  />
+                </Popover>
+              )}
+            />
+        </h3>
         <div style={{ marginBottom: '36px' }}>
           { paragraphs.map((p, index) =>
             <Paragraph

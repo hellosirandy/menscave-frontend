@@ -14,6 +14,7 @@ class AppContent extends Component {
       <Switch>
         <Route exact path='/article/:article' component={ ArticlePage }/>
         <Route exact path='/admin/newarticle' component={ EditArticlePage }/>
+        <Route exact path='/admin/editarticle/:article' component={ EditArticlePage }/>
         <Route exact path='/home' component={ Homepage }/>
         <Redirect from='/' to='/home' />
       </Switch>
