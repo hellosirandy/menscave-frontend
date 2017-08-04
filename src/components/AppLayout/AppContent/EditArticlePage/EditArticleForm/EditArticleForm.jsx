@@ -16,7 +16,7 @@ class EditArticleForm extends Component {
         });
         values.paragraphs = paragraphs;
         values['updateTime'] = new Date().toString();
-        values.comments = this.props.article ? this.props.article.comments : [];
+        values.comments = this.props.article ? (this.props.article.comments ? this.props.article.comments : []) : [];
         const body = {
           article: values,
           status: this.props.article ? this.props.articleKey : 'new',

@@ -27,7 +27,6 @@ export function saveArticle(body):Promise<resolve, reject> {
     });
   } else {
     promise = databaseRef.child(`articles/${body.status}`).set(body.article).then(err => {
-      console.log(body.article);
       if (!err) {
         return Promise.resolve('OK');
       } else {
