@@ -15,14 +15,26 @@ const database = firebaseApp.database();
 export const databaseRef = database.ref();
 export const auth = firebase.auth();
 
-export function saveArticle(article):Promise<resolve, reject> {
-  const promise = databaseRef.child('articles').push().set(article, function(err) {
-    if (!err) {
-      return Promise.resolve('OK');
-    } else {
-      return Promise.reject(err);
-    }
-  });
+export function saveArticle(body):Promise<resolve, reject> {
+  let promise;
+  if (body.status === 'new') {
+    promise = databaseRef.child('articles').push().set(body.article, function(err) {
+      if (!err) {
+        return Promise.resolve('OK');
+      } else {
+        return Promise.reject(err);
+      }
+    });
+  } else {
+    promise = databaseRef.child(`articles/${body.status}`).set(body.article).then(err => {
+      console.log(body.article);
+      if (!err) {
+        return Promise.resolve('OK');
+      } else {
+        return Promise.reject(err);
+      }
+    });
+  }
   return promise;
 }
 
@@ -37,15 +49,5 @@ export function fetchArticle(category):Promise<resolve> {
       return Promise.resolve(snapshot);
     });
   }
-  return promise;
-}
-
-export function leaveComment(articleKey, body):Promise<resolve, reject> {
-  console.log(body);
-  const promise = databaseRef.child(`articles/${articleKey}/comments`).push().set(body).then(err => {
-    Promise.resolve('OK');
-  }).catch(res => {
-    Promise.reject('ERROR');
-  });
   return promise;
 }

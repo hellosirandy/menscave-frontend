@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Input, Form, Icon } from 'antd';
 import CommentForm from './CommentForm/CommentForm';
 import { databaseRef } from '../../../../../tools/firebase';
+import { Comment } from '../../../../../models/comment';
 
-class Comment extends Component {
+class Comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
       commentFocus: false,
       comments: []
     }
-    databaseRef.child('articles').child(props.articleKey).child('comments').orderByChild('updateTime').on('child_added', this.commentAdded);
   }
 
   handleCommentClickOutside = () => {
@@ -19,15 +19,15 @@ class Comment extends Component {
     })
   }
 
-  commentAdded = (snapshot) => {
-    let comments = this.state.comments;
-    comments.push(snapshot.val());
-    this.setState({ comments: comments });
+  componentDidMount() {
+    databaseRef.child('articles').child(this.props.articleKey).child('comments').orderByChild('updateTime').on('child_added', this.commentAdded);
   }
 
-  generateDate = (d) => {
-    let date = new Date(d);
-    return `${processDateString(date.getMonth()+1)}/${processDateString(date.getDate())} ${processDateString(date.getHours())}:${processDateString(date.getMinutes())}`;
+  commentAdded = (snapshot) => {
+    let comments = this.state.comments;
+    const s = snapshot.val();
+    comments.push(new Comment(s.content, s.commenter, s.updateTime));
+    this.setState({ comments: comments });
   }
 
   render() {
@@ -57,10 +57,10 @@ class Comment extends Component {
         }}>
           <h3 style={{ fontSize: '1rem', lineHeight: '1' }}>
             <Icon type="user" style={{ color: '#08c', marginRight: '5px' }} />
-            {comment.name}
+            {comment.commenter}
           </h3>
-          <span style={{ fontSize: '0.8rem', lineHeight: '1', color: '#bfbfbf' }}>{this.generateDate(comment.updateTime)}</span>
-          <p>{comment.comment}</p>
+          <span style={{ fontSize: '0.8rem', lineHeight: '1', color: '#bfbfbf' }}>{comment.formatDate()}</span>
+          <p>{comment.content}</p>
         </div>
       )
     });
@@ -89,9 +89,4 @@ class Comment extends Component {
   }
 }
 
-function processDateString(number) {
-  return number.toString().length === 2 ? number : `0${number}`;
-}
-
-
-export default Comment;
+export default Comments;

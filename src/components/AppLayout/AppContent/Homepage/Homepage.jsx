@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
-import Article from './Article/Article';
+import ArticleCard from './ArticleCard/ArticleCard';
 import { fetchArticle } from '../../../../tools/firebase';
 import { Spin } from 'antd';
+import { Article } from '../../../../models/article';
 
 class Homepage extends Component  {
   constructor(props) {
@@ -18,12 +19,17 @@ class Homepage extends Component  {
     fetchArticle(this.state.category).then(res => {
       this.onArticleChange(res);
     });
+    
   }
 
   onArticleChange = (snapshot) => {
     let articles = [];
     for (let articleKey in snapshot.val()) {
-      articles.push({ key: articleKey, value: snapshot.val()[articleKey] });
+      const s = snapshot.val()[articleKey];
+      articles.push({
+        key: articleKey,
+        value: new Article(s.title, s.updateTime, s.category, s.comments, s.paragraphs)
+      });
     };
     articles = articles.reverse();
     this.setState({
@@ -54,7 +60,7 @@ class Homepage extends Component  {
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
           {spin}
           { this.state.articles.map((article, index) =>
-            <Article
+            <ArticleCard
               key={index}
               articleKey={article.key}
               article={article.value}

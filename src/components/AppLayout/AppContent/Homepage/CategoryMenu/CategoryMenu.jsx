@@ -14,16 +14,16 @@ class CategoryMenu extends Component {
         mode="horizontal"
         theme="light"
       >
-        <Menu.Item key="all">
+        <Menu.Item key="all" style={{ width: '25%', textAlign: 'center' }}>
           All
         </Menu.Item>
-        <Menu.Item key="basketball">
+        <Menu.Item key="basketball" style={{ width: '25%', textAlign: 'center' }}>
           Basketball
         </Menu.Item>
-        <Menu.Item key="baseball">
+        <Menu.Item key="baseball" style={{ width: '25%', textAlign: 'center' }}>
           Baseball
         </Menu.Item>
-        <Menu.Item key="sneakers">
+        <Menu.Item key="sneakers" style={{ width: '25%', textAlign: 'center' }}>
           Sneakers
         </Menu.Item>
       </Menu>

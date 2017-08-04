@@ -1,10 +1,47 @@
-import React from 'react';
-import { Modal, Form, Input, } from 'antd';
+import React, { Component } from 'react';
+import { Modal, Form, Input, message } from 'antd';
+import { auth } from '../../../../tools/firebase';
 const FormItem = Form.Item;
 
-export const LoginModal = Form.create()(
-  (props) => {
-    const { visible, onCancel, onLogin, form } = props;
+class LoginModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+    }
+  }
+  onLogin = () => {
+    this.setState({ loading: true });
+    const { form, onCancel } = this.props;
+    form.validateFields((err, values) => {
+      if (!err) {
+        auth.signInWithEmailAndPassword(values.username, values.password).then(user => {
+          this.setState({ loading: false });
+          onCancel();
+          message.success('You are now logged in', 3);
+        }).catch(err => {
+          this.setState({ loading: false });
+          if (err.code === 'auth/wrong-password') {
+            form.setFields({
+              password: {
+                errors: [new Error(err.message)],
+              },
+            });
+          } else if (err.code === 'auth/user-not-found') {
+            form.setFields({
+              username: {
+                errors: [new Error(err.message)],
+              },
+            });
+          }
+        });
+      } else {
+        this.setState({ loading: false });
+      }
+    });
+  }
+  render() {
+    const { visible, onCancel, form } = this.props;
     const { getFieldDecorator } = form;
     const loginForm = (
       <Form layout="vertical">
@@ -30,17 +67,19 @@ export const LoginModal = Form.create()(
       </Form>
     )
     return (
+
       <Modal
         visible={visible}
         title="Login"
         okText="Login"
         cancelText="cancel"
         onCancel={onCancel}
-        onOk={onLogin}
-        confirmLoading={false}
+        onOk={this.onLogin}
+        confirmLoading={this.state.loading}
       >
         {loginForm}
       </Modal>
     );
   }
-);
+}
+export default LoginModal;

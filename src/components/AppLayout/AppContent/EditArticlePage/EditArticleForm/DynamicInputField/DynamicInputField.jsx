@@ -10,14 +10,32 @@ class DynamicInputField extends Component {
     this.newParagraph = this.newParagraph.bind(this);
     this.removeParagraph = this.removeParagraph.bind(this);
     this.state = {
-      paragraphs: [{key: 0, english: '', chinese: '', type: 'words'}]
+      paragraphs: props.paragraphs ? [] : [{key: 0, english: '', chinese: '', type: 'words'}],
     }
   }
 
-  newParagraph(type) {
+  componentDidMount() {
+    if (this.props.paragraphs) {
+      this.fillParagraphs();
+    }
+  }
+
+  fillParagraphs = () => {
+    const { paragraphs } = this.props;
+    let stateParagraphs = this.state.paragraphs;
+    paragraphs.forEach(p => {
+      uuid ++;
+      stateParagraphs.push({key: uuid, english: p.english, chinese: p.chinese});
+    });
+    this.setState({
+      paragraphs: stateParagraphs
+    });
+  }
+
+  newParagraph() {
     uuid ++;
     let paragraphs = this.state.paragraphs;
-    paragraphs.push({key: uuid, english: '', chinese: '', type: type});
+    paragraphs.push({key: uuid, english: '', chinese: ''});
     this.setState({
       paragraphs: paragraphs
     });
@@ -50,7 +68,7 @@ class DynamicInputField extends Component {
             <div style={{ width: 74, float: 'right' }}>
 
               <Button style={{ marginRight: 10 }} shape="circle" icon="file-add" size="large"
-                onClick={() => this.newParagraph('words')}>
+                onClick={() => this.newParagraph()}>
               </Button>
 
               <Upload>
