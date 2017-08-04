@@ -10,7 +10,12 @@ export const LoginModal = Form.create()(
       <Form layout="vertical">
         <FormItem label="Username">
           {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username.' }],
+            rules: [{
+              type: 'email', message: 'Please input a valid E-mail as username',
+            }, {
+              required: true, message: 'Please input username',
+            }],
+            validateTrigger: ['onBlur'],
           })(
             <Input />
           )}

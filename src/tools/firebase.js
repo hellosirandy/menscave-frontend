@@ -13,6 +13,7 @@ const config = {
 const firebaseApp = firebase.initializeApp(config);
 const database = firebaseApp.database();
 export const databaseRef = database.ref();
+export const auth = firebase.auth();
 
 export function saveArticle(article):Promise<resolve, reject> {
   const promise = databaseRef.child('articles').push().set(article, function(err) {
