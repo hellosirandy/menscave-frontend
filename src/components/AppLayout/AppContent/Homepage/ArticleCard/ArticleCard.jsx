@@ -16,10 +16,10 @@ class ArticleCard extends Component {
           >
           <Row gutter={30}>
             <Col xs={{ span: 24 }} sm={{ span: 12 }} style={{ marginBottom: 12 }}>
-              <p style={{ fontSize: 16}}>{article.paragraphs[0].english}</p>
+              <p style={{ fontSize: 16}}>{article.paragraphs[0].content.english}</p>
             </Col>
             <Col xs={{ span: 24 }} sm={{ span: 12 }} style={{ marginBottom: 12 }}>
-              <p style={{ fontSize: 16}}>{article.paragraphs[0].chinese}</p>
+              <p style={{ fontSize: 16}}>{article.paragraphs[0].content.chinese}</p>
             </Col>
           </Row>
           <br/>
