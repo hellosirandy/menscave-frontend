@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button, Form, Select } from 'antd';
+import { Row, Col, Input, Button, Form } from 'antd';
 import ImageWall from './ImageWall/ImageWall';
 const FormItem = Form.Item;
 const { TextArea } = Input;
-const Option = Select.Option;
 
 class Paragraph extends Component {
   render() {
@@ -53,11 +52,14 @@ class Paragraph extends Component {
             <Input/>
           )}
         </FormItem>
-        <ImageWall fileUploaded={(url) => {
-          form.setFieldsValue({
-            [`paragraphs[${paragraph.key}].content.url`]: url
-          })
-        }}/>
+        <ImageWall
+          url={paragraph.content.url}
+          fileUploaded={(url) => {
+            form.setFieldsValue({
+              [`paragraphs[${paragraph.key}].content.url`]: url
+            })
+          }}
+        />
         <FormItem style={{ display: 'none' }}>
           {getFieldDecorator(`paragraphs[${paragraph.key}].content.url`, {
             initialValue: paragraph.content.url

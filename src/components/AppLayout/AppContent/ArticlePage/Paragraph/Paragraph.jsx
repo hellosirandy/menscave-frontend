@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col } from 'antd';
+import ImageWall from './ImageWall/ImageWall';
 
 class Paragraph extends Component {
   render() {
@@ -15,15 +16,7 @@ class Paragraph extends Component {
       </Row>
     ) : null;
     const imageParagraph = paragraph.type === 'image' ? (
-      <Row>
-        <Col span={24}>
-          <div style={{ width: '100%' }}>
-            <Spin spinning={false}>
-              <img src={paragraph.content.url} alt="" style={{ width: '100%' }}/>
-            </Spin>
-          </div>
-        </Col>
-      </Row>
+      <ImageWall url={paragraph.content.url} />
     ) : null;
     return (
       <div style={{ margin: '12px 0', padding: '12px 0', borderBottom: '1.5px dashed #f5cd47' }}>

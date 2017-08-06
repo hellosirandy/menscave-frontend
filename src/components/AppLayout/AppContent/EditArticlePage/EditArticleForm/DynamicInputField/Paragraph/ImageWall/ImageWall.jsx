@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon, Upload, Row, Col, Progress } from 'antd';
+import { Icon, Upload, Row, Col, Progress } from 'antd';
 import { storage } from '../../../../../../../../tools/firebase';
 import './ImageWall.css';
 
@@ -13,12 +13,23 @@ class ImageWall extends Component {
       fileUrl: '',
     }
   }
+  componentDidMount() {
+    const { url } = this.props;
+    if (url) {
+      this.setState({
+        fileSelected: true,
+        fileUrl: url,
+        uploadPercentage: 100,
+        fileUploaded: true
+      });
+    }
+  }
   render() {
     const uploadProps = {
       action: '/',
       beforeUpload: (file) => {
         let reader = new FileReader();
-        let url = reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
         reader.onloadend = function (e) {
             this.setState({ fileUrl: reader.result });
         }.bind(this);
