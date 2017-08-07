@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Upload, Form } from 'antd';
+import { Row, Col, Button, Form } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 const FormItem = Form.Item;
 
@@ -10,7 +10,8 @@ class DynamicInputField extends Component {
     this.newParagraph = this.newParagraph.bind(this);
     this.removeParagraph = this.removeParagraph.bind(this);
     this.state = {
-      paragraphs: props.paragraphs ? [] : [{key: 0, english: '', chinese: '', type: 'words'}],
+      // paragraphs: props.paragraphs ? [] : [{key: 0, content: {url: ''}, type: 'image'}],
+      paragraphs: props.paragraphs ? [] : [{key: 0, content: {english: '', chinese: ''}, type: 'text'}],
     }
   }
 
@@ -25,17 +26,18 @@ class DynamicInputField extends Component {
     let stateParagraphs = this.state.paragraphs;
     paragraphs.forEach(p => {
       uuid ++;
-      stateParagraphs.push({key: uuid, english: p.english, chinese: p.chinese});
+      stateParagraphs.push({ key: uuid, type: p.type, content: p.content });
     });
     this.setState({
       paragraphs: stateParagraphs
     });
   }
 
-  newParagraph() {
+  newParagraph(type) {
     uuid ++;
     let paragraphs = this.state.paragraphs;
-    paragraphs.push({key: uuid, english: '', chinese: ''});
+    const content = type === 'text' ? { english: '', chinese: '' } : {url: ''};
+    paragraphs.push({key: uuid, type: type, content: content});
     this.setState({
       paragraphs: paragraphs
     });
@@ -68,14 +70,12 @@ class DynamicInputField extends Component {
             <div style={{ width: 74, float: 'right' }}>
 
               <Button style={{ marginRight: 10 }} shape="circle" icon="file-add" size="large"
-                onClick={() => this.newParagraph()}>
+                onClick={() => this.newParagraph('text')}>
               </Button>
 
-              <Upload>
-                <Button shape="circle" icon="picture" size="large">
-
-                </Button>
-              </Upload>
+              <Button shape="circle" icon="picture" size="large"
+                onClick={() => this.newParagraph('image')}>
+              </Button>
             </div>
 
           </Col>

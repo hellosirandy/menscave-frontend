@@ -14,6 +14,7 @@ const firebaseApp = firebase.initializeApp(config);
 const database = firebaseApp.database();
 export const databaseRef = database.ref();
 export const auth = firebase.auth();
+export const storage = firebase.storage();
 
 export function saveArticle(body):Promise<resolve, reject> {
   let promise;

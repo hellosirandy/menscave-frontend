@@ -15,7 +15,7 @@ class EditArticleForm extends Component {
           return paragraph;
         });
         values.paragraphs = paragraphs;
-        values['updateTime'] = new Date().toString();
+        values.updateTime = new Date().getTime();
         values.comments = this.props.article ? (this.props.article.comments ? this.props.article.comments : []) : [];
         const body = {
           article: values,
@@ -27,8 +27,6 @@ class EditArticleForm extends Component {
         }).catch((res) => {
           console.log(res);
         });
-      } else {
-        console.log(err);
       }
     });
   };
