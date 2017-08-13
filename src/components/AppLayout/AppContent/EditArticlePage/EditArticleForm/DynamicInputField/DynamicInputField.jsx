@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Form } from 'antd';
+import { Form } from 'antd';
 import Paragraph from './Paragraph/Paragraph';
 const FormItem = Form.Item;
 
@@ -7,10 +7,7 @@ let uuid = 0;
 class DynamicInputField extends Component {
   constructor(props) {
     super(props);
-    this.newParagraph = this.newParagraph.bind(this);
-    this.removeParagraph = this.removeParagraph.bind(this);
     this.state = {
-      // paragraphs: props.paragraphs ? [] : [{key: 0, content: {url: ''}, type: 'image'}],
       paragraphs: props.paragraphs ? [] : [{key: 0, content: {english: '', chinese: ''}, type: 'text'}],
     }
   }
@@ -25,25 +22,38 @@ class DynamicInputField extends Component {
     const { paragraphs } = this.props;
     let stateParagraphs = this.state.paragraphs;
     paragraphs.forEach(p => {
+      stateParagraphs.push({
+        key: uuid,
+        type: p.type,
+        content: p.content
+      });
       uuid ++;
-      stateParagraphs.push({ key: uuid, type: p.type, content: p.content });
     });
     this.setState({
       paragraphs: stateParagraphs
     });
   }
 
-  newParagraph(type) {
-    uuid ++;
+  newParagraph = (type, key) => {
     let paragraphs = this.state.paragraphs;
+    for (let i = paragraphs.length; i > key+1; i--) {
+      paragraphs[i] = paragraphs[i-1];
+      if (paragraphs[i]) {
+        paragraphs[i].key ++;
+      }
+    }
     const content = type === 'text' ? { english: '', chinese: '' } : {url: ''};
-    paragraphs.push({key: uuid, type: type, content: content});
+    paragraphs[key+1] = ({
+      key: key+1,
+      type: type,
+      content: content
+    });
     this.setState({
       paragraphs: paragraphs
     });
   }
 
-  removeParagraph(k) {
+  removeParagraph = (k) => {
     let paragraphs = this.state.paragraphs;
     this.setState({
       paragraphs: paragraphs.filter(p => p.key !== k),
@@ -60,26 +70,11 @@ class DynamicInputField extends Component {
               paragraphNum={index+1}
               paragraph={p}
               removeParagraph = {this.removeParagraph}
+              newParagraph = {this.newParagraph}
               form={this.props.form}
             />
           )}
         </FormItem>
-
-        <Row style={{ marginBottom: 24 }}>
-          <Col span={24}>
-            <div style={{ width: 74, float: 'right' }}>
-
-              <Button style={{ marginRight: 10 }} shape="circle" icon="file-add" size="large"
-                onClick={() => this.newParagraph('text')}>
-              </Button>
-
-              <Button shape="circle" icon="picture" size="large"
-                onClick={() => this.newParagraph('image')}>
-              </Button>
-            </div>
-
-          </Col>
-        </Row>
       </div>
     )
   }

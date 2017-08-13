@@ -10,7 +10,8 @@
     "react-onclickoutside": "^6.4.0",
     "react-responsive": "^1.3.4",
     "react-router": "^4.1.2",
-    "react-router-dom": "^4.1.2"
+    "react-router-dom": "^4.1.2",
+    "sw-precache": "^5.2.0"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.2.1",
@@ -18,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp public/manifest.json public/favicon.ico build/ && sw-precache --navigate-fallback='index.html' --root='build/' --static-file-globs='build/**/!(*map*)'",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

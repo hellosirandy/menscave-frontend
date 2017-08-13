@@ -2,19 +2,21 @@ export class Article {
   constructor(
     title: string,
     updateTime: number,
+    createTime: number,
     category: string,
     comments: string[],
     paragraphs: any[],
   ) {
     this.title = title;
     this.updateTime = updateTime;
+    this.createTime = createTime;
     this.category = category;
     this.comments = comments;
     this.paragraphs = paragraphs;
   }
 
   formatDate() {
-    let date = new Date(this.updateTime);
+    let date = new Date(this.createTime);
     return `${this.processDateString(date.getMonth()+1)}/${this.processDateString(date.getDate())} ${this.processDateString(date.getHours())}:${this.processDateString(date.getMinutes())}`;
   }
 

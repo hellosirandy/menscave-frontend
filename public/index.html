@@ -21,12 +21,25 @@
     -->
     <title>Men's Cave</title>
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Men's Cave">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico">
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').catch(function(ex) {
+                console.warn(ex);
+                console.warn('(This warning can be safely ignored outside of the production build.)');
+            });
+        }
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
