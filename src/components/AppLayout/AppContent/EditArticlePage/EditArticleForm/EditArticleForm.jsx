@@ -32,9 +32,13 @@ class EditArticleForm extends Component {
       articleRef = databaseRef.child('articles').push();
     }
     values.updateTime = new Date().getTime();
+
     articleRef.set(values).then(res => {
+
+      return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
+    }).then(res => {
       message.success('The article has been saved.', 3);
-      history.push('/home');
+      // history.push('/home');
     });
   }
 

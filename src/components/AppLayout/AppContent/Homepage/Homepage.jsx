@@ -3,37 +3,36 @@ import CategoryMenu from './CategoryMenu/CategoryMenu';
 import ArticleCard from './ArticleCard/ArticleCard';
 import { fetchArticle } from '../../../../tools/firebase';
 import { Spin } from 'antd';
-import { Article } from '../../../../models/article';
 
 class Homepage extends Component  {
   constructor(props) {
     super(props);
     this.state = {
       category: 'all',
-      articles: [],
+      previews: [],
       loading: true
     }
   }
 
   componentDidMount() {
     fetchArticle(this.state.category).then(res => {
-      this.onArticleChange(res);
+      this.onPreviewChange(res);
     });
 
   }
 
-  onArticleChange = (snapshot) => {
-    let articles = [];
-    for (let articleKey in snapshot.val()) {
-      const s = snapshot.val()[articleKey];
-      articles.push({
-        key: articleKey,
-        value: new Article(s.title, s.updateTime, s.createTime, s.category, s.comments, s.paragraphs)
+  onPreviewChange = (snapshot) => {
+    let previews = [];
+    for (let previewKey in snapshot.val()) {
+      const s = snapshot.val()[previewKey];
+      previews.push({
+        key: s.articleKey,
+        createTime: s.createTime,
       });
     };
-    articles.sort(function(a, b) {return b.value.createTime - a.value.createTime});
+    previews.sort(function(a, b) {return b.createTime - a.createTime});
     this.setState({
-      articles: articles,
+      previews: previews,
       loading: false
     });
   }
@@ -42,28 +41,29 @@ class Homepage extends Component  {
     this.setState({
       category: category,
       loading: true,
-      articles: [],
+      previews: [],
     });
     fetchArticle(category).then(res => {
-      this.onArticleChange(res);
+      this.onPreviewChange(res);
     });
   }
 
   render() {
-    const spin = this.state.loading ? ( <div style={{ textAlign: 'center' }}><Spin/></div> ) : null;
+    const { loading, previews, category } = this.state;
+    const spin = loading ? ( <div style={{ textAlign: 'center' }}><Spin/></div> ) : null;
     return (
       <div>
         <CategoryMenu
           updateCategory={this.updateCategory}
-          category={this.state.category}
+          category={category}
         />
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
           {spin}
-          { this.state.articles.map((article, index) =>
+          { previews.length > 0 && previews.map((preview, index) =>
             <ArticleCard
               key={index}
-              articleKey={article.key}
-              article={article.value}
+              articleKey={preview.key}
+              l = {previews.length}
             />
           )}
         </div>

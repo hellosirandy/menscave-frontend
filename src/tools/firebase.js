@@ -19,11 +19,11 @@ export const storage = firebase.storage();
 export function fetchArticle(category):Promise<resolve> {
   let promise;
   if (category === 'all') {
-    promise = databaseRef.child('articles').once('value', snapshot => {
+    promise = databaseRef.child('previews').once('value', snapshot => {
       return Promise.resolve(snapshot);
     });
   } else {
-    promise = databaseRef.child('articles').orderByChild('category').equalTo(category).once('value', snapshot => {
+    promise = databaseRef.child('previews').orderByChild('category').equalTo(category).once('value', snapshot => {
       return Promise.resolve(snapshot);
     });
   }
