@@ -19,7 +19,7 @@ class Homepage extends Component  {
     fetchArticle(this.state.category).then(res => {
       this.onArticleChange(res);
     });
-    
+
   }
 
   onArticleChange = (snapshot) => {
@@ -28,10 +28,10 @@ class Homepage extends Component  {
       const s = snapshot.val()[articleKey];
       articles.push({
         key: articleKey,
-        value: new Article(s.title, s.updateTime, s.category, s.comments, s.paragraphs)
+        value: new Article(s.title, s.updateTime, s.createTime, s.category, s.comments, s.paragraphs)
       });
     };
-    articles = articles.reverse();
+    articles.sort(function(a, b) {return b.value.createTime - a.value.createTime});
     this.setState({
       articles: articles,
       loading: false

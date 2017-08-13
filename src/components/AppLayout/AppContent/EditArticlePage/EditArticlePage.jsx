@@ -13,9 +13,9 @@ class EditArticlePage extends Component {
   }
   componentDidMount() {
     if ("article" in this.props.match.params) {
-      databaseRef.child('articles').orderByKey().equalTo(this.props.match.params.article).once('value', snapshot => {
+      databaseRef.child(`articles/${this.props.match.params.article}`).once('value', snapshot => {
         this.setState({
-          article: snapshot.val()[this.props.match.params.article],
+          article: snapshot.val(),
           loading: false,
         });
       });

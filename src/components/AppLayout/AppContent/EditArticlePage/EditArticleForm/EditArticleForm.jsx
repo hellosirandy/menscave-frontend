@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button, Form, message } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
-import { saveArticle } from '../../../../../tools/firebase';
+import { databaseRef } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -11,25 +11,32 @@ class EditArticleForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const paragraphs = values.paragraphs.filter(paragraph => {
-          return paragraph;
-        });
-        values.paragraphs = paragraphs;
-        values.updateTime = new Date().getTime();
-        values.comments = this.props.article ? (this.props.article.comments ? this.props.article.comments : []) : [];
-        const body = {
-          article: values,
-          status: this.props.article ? this.props.articleKey : 'new',
-        }
-        saveArticle(body).then((res) => {
-          message.success('The article has been saved.', 3);
-          history.push('/home');
-        }).catch((res) => {
-          console.log(res);
-        });
+        this.saveArticle(values, history);
       }
     });
   };
+
+  saveArticle = (values, history) => {
+    const { article, articleKey } = this.props;
+    const paragraphs = values.paragraphs.filter(paragraph => {
+      return paragraph;
+    });
+    values.paragraphs = paragraphs;
+    let articleRef;
+    if (article) {
+      values.createTime = article.createTime;
+      values.comments = article.comments ? article.comments : [];
+      articleRef = databaseRef.child(`articles/${articleKey}`);
+    } else {
+      values.createTime = new Date().getTime();
+      articleRef = databaseRef.child('articles').push();
+    }
+    values.updateTime = new Date().getTime();
+    articleRef.set(values).then(res => {
+      message.success('The article has been saved.', 3);
+      history.push('/home');
+    });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
