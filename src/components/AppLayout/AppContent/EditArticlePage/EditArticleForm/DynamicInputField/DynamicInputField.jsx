@@ -8,7 +8,7 @@ class DynamicInputField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      paragraphs: props.paragraphs ? [] : [{key: 0, content: {english: '', chinese: ''}, type: 'text'}],
+      paragraphs: props.paragraphs ? [] : [{key: 0, content: {english: '', chinese: ''}, type: 'text', uuid: 0}],
     }
   }
 
@@ -25,7 +25,8 @@ class DynamicInputField extends Component {
       stateParagraphs.push({
         key: uuid,
         type: p.type,
-        content: p.content
+        content: p.content,
+        uuid: uuid,
       });
       uuid ++;
     });
@@ -36,18 +37,20 @@ class DynamicInputField extends Component {
 
   newParagraph = (type, key) => {
     let paragraphs = this.state.paragraphs;
-    for (let i = paragraphs.length; i > key+1; i--) {
-      paragraphs[i] = paragraphs[i-1];
-      if (paragraphs[i]) {
-        paragraphs[i].key ++;
-      }
-    }
-    const content = type === 'text' ? { english: '', chinese: '' } : {url: ''};
-    paragraphs[key+1] = ({
+    let np = {
       key: key+1,
       type: type,
-      content: content
-    });
+      content: type === 'text' ? { english: '', chinese: '' } : {url: ''},
+      uuid: uuid,
+    }
+    uuid++;
+    paragraphs.splice(key+1, 0, np);
+    for (var i = key + 2; i < paragraphs.length; i++) {
+      if (paragraphs[i].key <= paragraphs[i-1].key) {
+        paragraphs[i].key = paragraphs[i-1].key + 1;
+      }
+    }
+    console.log(paragraphs);
     this.setState({
       paragraphs: paragraphs
     });
@@ -66,7 +69,7 @@ class DynamicInputField extends Component {
         <FormItem>
           { this.state.paragraphs.map((p, index) =>
             <Paragraph
-              key={p.key}
+              key={p.uuid}
               paragraphNum={index+1}
               paragraph={p}
               removeParagraph = {this.removeParagraph}

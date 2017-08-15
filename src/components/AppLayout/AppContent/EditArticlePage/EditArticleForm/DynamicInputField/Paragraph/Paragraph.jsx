@@ -4,8 +4,6 @@ import ImageWall from './ImageWall/ImageWall';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-
-
 class Paragraph extends Component {
   render() {
     const { form, paragraphNum, paragraph, removeParagraph, newParagraph } = this.props;
