@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button, Form, message } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
+import DynamicInput from './DynamicInput/DynamicInput';
 import { databaseRef } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
 const Option = Select.Option;
@@ -21,26 +22,27 @@ class EditArticleForm extends Component {
     const paragraphs = values.paragraphs.filter(paragraph => {
       return paragraph;
     });
-    values.paragraphs = paragraphs;
-    let articleRef;
-    if (article) {
-      values.createTime = article.createTime;
-      values.comments = article.comments ? article.comments : [];
-      articleRef = databaseRef.child(`articles/${articleKey}`);
-    } else {
-      values.createTime = new Date().getTime();
-      articleRef = databaseRef.child('articles').push();
-    }
-    values.updateTime = new Date().getTime();
-    console.log(values);
-
-    articleRef.set(values).then(res => {
-      message.success('The article has been saved.', 3);
-      history.push('/home');
-      // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
-    }).catch(err => {
-      console.log(err);
-    });
+    console.log(paragraphs);
+    // values.paragraphs = paragraphs;
+    // let articleRef;
+    // if (article) {
+    //   values.createTime = article.createTime;
+    //   values.comments = article.comments ? article.comments : [];
+    //   articleRef = databaseRef.child(`articles/${articleKey}`);
+    // } else {
+    //   values.createTime = new Date().getTime();
+    //   articleRef = databaseRef.child('articles').push();
+    // }
+    // values.updateTime = new Date().getTime();
+    // console.log(values);
+    //
+    // articleRef.set(values).then(res => {
+    //   message.success('The article has been saved.', 3);
+    //   history.push('/home');
+    //   // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
+    // }).catch(err => {
+    //   console.log(err);
+    // });
   }
 
   render() {
@@ -81,7 +83,11 @@ class EditArticleForm extends Component {
               </Col>
             </Row>
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
-            <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/>
+            <DynamicInput
+              form={this.props.form}
+              paragraphs={this.props.article ? this.props.article.paragraphs : []}
+            />
+            {/* <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/> */}
 
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
             <Row style={{ marginBottom: 24 }}>
