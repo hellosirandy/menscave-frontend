@@ -39,7 +39,7 @@ const Split = ({ props }) => {
   const { getFieldDecorator } = form;
   return (
     <Row>
-      <Col span={24} style={{ paddingTop: 12 }}>
+      <Col span={24}>
         <FormItem style={{ marginBottom: 0 }}>
           {getFieldDecorator(`paragraphs[${paragraph.key}].content`, {
             initialValue: paragraph.content
@@ -57,16 +57,17 @@ const Split = ({ props }) => {
 export default class TextInput extends Component {
   render() {
     const { form, paragraph } = this.props;
-    const inputField = paragraph.type === 'single' ? (<Split props={this.props}/>) : (<Single props={this.props}/>)
+    const { getFieldDecorator } = form;
+    const inputField = paragraph.type === 'single' ? (<Split props={this.props}/>) : (<Single props={this.props}/>);
     return (
       <div>
-        {/* <FormItem style={{ display: 'none' }}>
+        <FormItem style={{ display: 'none' }}>
           {getFieldDecorator(`paragraphs[${paragraph.key}].type`, {
             initialValue: paragraph.type
           })(
             <Input/>
           )}
-        </FormItem> */}
+        </FormItem>
         { inputField }
       </div>
     )
