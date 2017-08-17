@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Input, Form, Icon } from 'antd';
+import { Form, Input } from 'antd';
 import CommentForm from './CommentForm/CommentForm';
+import SingleComment from './SingleComment/SingleComment';
 import { databaseRef } from '../../../../../tools/firebase';
-import { Comment } from '../../../../../models/comment';
 
 class Comments extends Component {
   constructor(props) {
@@ -20,13 +20,13 @@ class Comments extends Component {
   }
 
   componentDidMount() {
-    databaseRef.child('articles').child(this.props.articleKey).child('comments').orderByChild('updateTime').on('child_added', this.commentAdded);
+    databaseRef.child(`articles/${this.props.articleKey}/comments`).orderByChild('updateTime').on('child_added', this.commentAdded);
   }
 
   commentAdded = (snapshot) => {
     let comments = this.state.comments;
     const s = snapshot.val();
-    comments.push(new Comment(s.content, s.commenter, s.updateTime));
+    comments.push(s);
     this.setState({ comments: comments });
   }
 
@@ -48,20 +48,21 @@ class Comments extends Component {
     const commentDivStyleMinHeight = this.state.commentFocus ? 292 : 62;
     const comments = this.state.comments.map((comment, index) => {
       return (
-        <div key={index}
-          style={{
-          borderTop: '1px solid #dfdfdf',
-          borderLeft: '1px solid #dfdfdf',
-          borderRight: '1px solid #dfdfdf',
-          padding: '16px', fontSize: '1rem',
-        }}>
-          <h3 style={{ fontSize: '1rem', lineHeight: '1' }}>
-            <Icon type="user" style={{ color: '#08c', marginRight: '5px' }} />
-            {comment.commenter}
-          </h3>
-          <span style={{ fontSize: '0.8rem', lineHeight: '1', color: '#bfbfbf' }}>{comment.formatDate()}</span>
-          <p>{comment.content}</p>
-        </div>
+        // <div key={index}
+        //   style={{
+        //   borderTop: '1px solid #dfdfdf',
+        //   borderLeft: '1px solid #dfdfdf',
+        //   borderRight: '1px solid #dfdfdf',
+        //   padding: '16px', fontSize: '1rem',
+        // }}>
+        //   <h3 style={{ fontSize: '1rem', lineHeight: '1' }}>
+        //     <Icon type="user" style={{ color: '#08c', marginRight: '5px' }} />
+        //     {comment.commenter}
+        //   </h3>
+        //   <span style={{ fontSize: '0.8rem', lineHeight: '1', color: '#bfbfbf' }}>{comment.formatDate()}</span>
+        //   <p>{comment.content}</p>
+        // </div>
+        <SingleComment key={index} url={comment}/>
       )
     });
     return (

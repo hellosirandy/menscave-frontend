@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Form, Button, message } from 'antd';
 import onClickOutside from 'react-onclickoutside';
 import { databaseRef } from '../../../../../../tools/firebase';
+import { Comment } from '../../../../../../models/comment';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
@@ -14,13 +15,15 @@ class CommentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.updateTime = (new Date()).getTime();
-        databaseRef.child(`articles/${this.props.articleKey}/comments`).push().set(values).then(err => {
-          this.props.handleClickOutside();
-          message.success('You have leaved a comment', 3);
-        }).catch(res => {
-            console.log(res);
+        const comment = new Comment(values.content, values.commenter, (new Date()).getTime());
+        let commentRef = databaseRef.child('comments/').push()
+        commentRef.set(comment).then(err => {
+          databaseRef.child(`articles/${this.props.articleKey}/comments`).push().set(commentRef.key).then(err => {
+            this.props.handleClickOutside();
+            message.success('You have leaved a comment', 3);
+          });
         });
+
       } else {
         console.log(err);
       }
