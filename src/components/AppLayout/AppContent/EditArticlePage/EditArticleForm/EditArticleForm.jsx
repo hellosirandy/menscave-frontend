@@ -4,6 +4,7 @@ import DynamicInputField from './DynamicInputField/DynamicInputField';
 import DynamicInput from './DynamicInput/DynamicInput';
 import { databaseRef } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
+import { Article } from '../../../../../models/article';
 const Option = Select.Option;
 const FormItem = Form.Item;
 
@@ -19,31 +20,31 @@ class EditArticleForm extends Component {
 
   saveArticle = (values, history) => {
     const { article, articleKey } = this.props;
-    console.log(values);
-    const paragraphs = values.paragraphs.filter(paragraph => {
-      return paragraph;
+    const paragraphs = values.keys.map(k => {
+      return values[`paragraphs-${k}`];
     });
-    console.log(paragraphs);
-    // values.paragraphs = paragraphs;
-    // let articleRef;
-    // if (article) {
-    //   values.createTime = article.createTime;
-    //   values.comments = article.comments ? article.comments : [];
-    //   articleRef = databaseRef.child(`articles/${articleKey}`);
-    // } else {
-    //   values.createTime = new Date().getTime();
-    //   articleRef = databaseRef.child('articles').push();
-    // }
-    // values.updateTime = new Date().getTime();
-    // console.log(values);
-    //
-    // articleRef.set(values).then(res => {
-    //   message.success('The article has been saved.', 3);
-    //   history.push('/home');
-    //   // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
-    // }).catch(err => {
-    //   console.log(err);
-    // });
+    const updateArticle = new Article('', 0, 0, '', [], []);
+    updateArticle.paragraphs = paragraphs;
+    updateArticle.title = values.title;
+    updateArticle.category = values.category;
+    let articleRef;
+    if (article) {
+      updateArticle.createTime = article.createTime;
+      updateArticle.comments = article.comments ? article.comments : [];
+      articleRef = databaseRef.child(`articles/${articleKey}`);
+    } else {
+      updateArticle.createTime = new Date().getTime();
+      articleRef = databaseRef.child('articles').push();
+    }
+    updateArticle.updateTime = new Date().getTime();
+
+    articleRef.set(updateArticle).then(res => {
+      message.success('The article has been saved.', 3);
+      history.push('/home');
+      // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   render() {

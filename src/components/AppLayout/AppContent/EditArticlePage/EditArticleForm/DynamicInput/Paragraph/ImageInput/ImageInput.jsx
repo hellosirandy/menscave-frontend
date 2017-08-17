@@ -76,29 +76,16 @@ export default class Paragraph extends Component {
 
   render() {
     const { paragraph, form } = this.props;
-    console.log(paragraph);
     const { getFieldDecorator } = form;
     const content = paragraph.content.url ? (<ImageWall percentage={ 100 } url={ paragraph.content.url } uploaded={ true } />) : (this.state.fileUrl === '' ? <ImageUploader fileSelected={this.handleFileSelected}/> : <ImageWall
       percentage={ this.state.uploadPercentage }
       url={ this.state.fileUrl }
       uploaded={ this.state.fileUploaded }
     />);
+    getFieldDecorator(`paragraphs-${paragraph.key}.type`, { initialValue: paragraph.type });
+    getFieldDecorator(`paragraphs-${paragraph.key}.content.url`, { initialValue: paragraph.content.url });
     return (
       <div>
-        <FormItem style={{ display: 'none' }}>
-          {getFieldDecorator(`paragraphs[${paragraph.key}].type`, {
-            initialValue: paragraph.type
-          })(
-            <Input/>
-          )}
-        </FormItem>
-        <FormItem style={{ display: 'none' }}>
-          {getFieldDecorator(`paragraphs[${paragraph.key}].content.url`, {
-            initialValue: paragraph.content.url
-          })(
-            <Input/>
-          )}
-        </FormItem>
         { content }
       </div>
     )

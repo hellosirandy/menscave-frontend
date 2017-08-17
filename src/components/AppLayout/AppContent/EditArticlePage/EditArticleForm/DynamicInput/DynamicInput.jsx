@@ -5,80 +5,86 @@ let uuid = 0;
 export default class DynamicInput extends Component {
   constructor(props) {
     super(props);
-    const defautParagraph = {
-      uuid: 0,
-      type: 'single',
-      content: '123123123',
-      key: uuid++
-    }
     this.state = {
-      paragraphs: props.paragraphs.length > 0 ? []: [defautParagraph]
+      paragraphs: [{
+        type: 'single',
+        content: '',
+        key: uuid++,
+      }]
     }
   }
 
   componentDidMount() {
+    uuid = 0;
     this.fillParagraphs(this.props.paragraphs);
   }
 
   fillParagraphs = (paragraphs) => {
-    let stateParagraphs = this.state.paragraphs;
-    paragraphs.forEach(p => {
-      stateParagraphs.push({
-        uuid: uuid,
+    const nextParagraphs = paragraphs.map(p => {
+      return {
         type: p.type,
         content: p.content,
-        key: uuid
-      });
-      uuid ++;
-    });
-    this.setState({ paragraphs: stateParagraphs })
+        key: uuid++
+      };
+    })
+    const keys = nextParagraphs.map(np => { return np.key });
+    this.setState({ paragraphs: nextParagraphs, keys: keys });
   }
 
   addParagraph = (num, type) => {
-    console.log(this.props.form.getFieldValue('keys'));
-    let paragraphs = this.state.paragraphs;
+    const { form } = this.props;
     let content;
-    if (type === 'image') {
-      content = { url: '' };
-    } else if (type === 'split') {
-      content = { english: '333', chinese: '222' };
-    } else if (type === 'single') {
+    if (type === 'single') {
       content = '';
+    } else if (type === 'split') {
+      content = {english: '', chinese: ''};
+    } else if (type === 'image') {
+      content = {url: ''};
     }
-    // const newParagraph = {
-    //   uuid: uuid,
-    //   type: type,
-    //   content: content,
-    //   key: newKey,
-    // }
-    // paragraphs.splice(num+1, 0, newParagraph);
-    this.setState({ paragraphs });
+    const keys = form.getFieldValue('keys');
+    keys.splice(num+1, 0, uuid);
+    const paragraphs = form.getFieldValue('paragraphs');
+    const nextParagraphs = paragraphs.concat({ type: type, content: content, key: uuid});
+    uuid++;
+    form.setFieldsValue({
+      keys: keys,
+      paragraphs: nextParagraphs,
+    });
   }
 
   removeParagraph = (k) => {
-    let paragraphs = this.state.paragraphs;
-    this.setState({
-      paragraphs: paragraphs.filter(p => p.key !== k),
+    const { form } = this.props;
+    const keys = form.getFieldValue('keys');
+    if (keys.length === 1) {
+      return;
+    }
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
     });
   }
 
   render() {
-    const { paragraphs } = this.state;
     const { form } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
-    // getFieldDecorator('keys', { initialValue: [] });
+    const { getFieldDecorator, getFieldValue } = form;
+    getFieldDecorator('paragraphs', {initialValue: this.state.paragraphs});
+    const paragraphs = getFieldValue('paragraphs');
+    getFieldDecorator('keys', {initialValue: paragraphs.map((p, index) => {return index;})});
+    const keys = getFieldValue('keys');
+    const formItem = keys.map((k, index) => {
+      return (
+        <Paragraph
+          key={k}
+          paragraph={paragraphs[k]}
+          paragraphNum={index+1}
+          form={form}
+          addParagraph={this.addParagraph}
+          removeParagraph={this.removeParagraph}
+        />
+      )
+    });
     return (
       <div>
-        { paragraphs.map((p, index) =>
-          <Paragraph
-            key={p.uuid}
-            paragraph={p}
-            paragraphNum={index+1}
-            form={form}
-            addParagraph={this.addParagraph}
-            removeParagraph={this.removeParagraph}
-          />
-        )}
+        {formItem}
       </div>
     )
   }
