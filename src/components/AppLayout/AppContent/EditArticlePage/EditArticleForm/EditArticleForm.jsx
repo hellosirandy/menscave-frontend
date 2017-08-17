@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button, Form, message } from 'antd';
-import DynamicInputField from './DynamicInputField/DynamicInputField';
 import DynamicInput from './DynamicInput/DynamicInput';
 import { databaseRef } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
@@ -89,7 +88,6 @@ class EditArticleForm extends Component {
               form={this.props.form}
               paragraphs={this.props.article ? this.props.article.paragraphs : []}
             />
-            {/* <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/> */}
 
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
             <Row style={{ marginBottom: 24 }}>
