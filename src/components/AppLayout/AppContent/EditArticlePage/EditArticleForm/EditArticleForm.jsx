@@ -19,6 +19,7 @@ class EditArticleForm extends Component {
 
   saveArticle = (values, history) => {
     const { article, articleKey } = this.props;
+    console.log(values);
     const paragraphs = values.paragraphs.filter(paragraph => {
       return paragraph;
     });

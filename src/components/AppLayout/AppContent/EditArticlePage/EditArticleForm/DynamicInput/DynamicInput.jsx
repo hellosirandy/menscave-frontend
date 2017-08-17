@@ -35,11 +35,8 @@ export default class DynamicInput extends Component {
   }
 
   addParagraph = (num, type) => {
+    console.log(this.props.form.getFieldValue('keys'));
     let paragraphs = this.state.paragraphs;
-    const key = paragraphs[num].key+1;
-    for (let i = num + 1; i < paragraphs.length; i++) {
-      paragraphs[i].key ++;
-    }
     let content;
     if (type === 'image') {
       content = { url: '' };
@@ -48,14 +45,13 @@ export default class DynamicInput extends Component {
     } else if (type === 'single') {
       content = '';
     }
-    const newParagraph = {
-      uuid: uuid,
-      type: type,
-      content: content,
-      key: key,
-    }
-    paragraphs.splice(num+1, 0, newParagraph);
-    uuid ++;
+    // const newParagraph = {
+    //   uuid: uuid,
+    //   type: type,
+    //   content: content,
+    //   key: newKey,
+    // }
+    // paragraphs.splice(num+1, 0, newParagraph);
     this.setState({ paragraphs });
   }
 
@@ -69,6 +65,8 @@ export default class DynamicInput extends Component {
   render() {
     const { paragraphs } = this.state;
     const { form } = this.props;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+    // getFieldDecorator('keys', { initialValue: [] });
     return (
       <div>
         { paragraphs.map((p, index) =>
