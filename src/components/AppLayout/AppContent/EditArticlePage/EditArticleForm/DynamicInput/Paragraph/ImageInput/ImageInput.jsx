@@ -68,6 +68,11 @@ export default class Paragraph extends Component {
         console.log(err);
       },
       () => {
+        const { form, paragraph } = this.props;
+        const update = {};
+        console.log(task.snapshot.downloadURL);
+        update[`paragraphs-${paragraph.key}.content.url`] = task.snapshot.downloadURL;
+        form.setFieldsValue(update);
         this.setState({ fileUploaded: true });
       }
     )
