@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Select, Input, Row, Col, Button, Form, message } from 'antd';
 import DynamicInputField from './DynamicInputField/DynamicInputField';
+import DynamicInput from './DynamicInput/DynamicInput';
 import { databaseRef } from '../../../../../tools/firebase';
 import { Route } from 'react-router-dom';
+import { Article } from '../../../../../models/article';
 const Option = Select.Option;
 const FormItem = Form.Item;
 
@@ -18,27 +20,30 @@ class EditArticleForm extends Component {
 
   saveArticle = (values, history) => {
     const { article, articleKey } = this.props;
-    const paragraphs = values.paragraphs.filter(paragraph => {
-      return paragraph;
+    const paragraphs = values.keys.map(k => {
+      return values[`paragraphs-${k}`];
     });
-    values.paragraphs = paragraphs;
+    const updateArticle = new Article('', 0, 0, '', [], []);
+    updateArticle.paragraphs = paragraphs;
+    updateArticle.title = values.title;
+    updateArticle.category = values.category;
     let articleRef;
     if (article) {
-      values.createTime = article.createTime;
-      values.comments = article.comments ? article.comments : [];
+      updateArticle.createTime = article.createTime;
+      updateArticle.comments = article.comments ? article.comments : [];
       articleRef = databaseRef.child(`articles/${articleKey}`);
     } else {
-      values.createTime = new Date().getTime();
+      updateArticle.createTime = new Date().getTime();
       articleRef = databaseRef.child('articles').push();
     }
-    values.updateTime = new Date().getTime();
+    updateArticle.updateTime = new Date().getTime();
 
-    articleRef.set(values).then(res => {
-
-      return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
-    }).then(res => {
+    articleRef.set(updateArticle).then(res => {
       message.success('The article has been saved.', 3);
-      // history.push('/home');
+      history.push('/home');
+      // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -80,7 +85,11 @@ class EditArticleForm extends Component {
               </Col>
             </Row>
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
-            <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/>
+            <DynamicInput
+              form={this.props.form}
+              paragraphs={this.props.article ? this.props.article.paragraphs : []}
+            />
+            {/* <DynamicInputField form={this.props.form} paragraphs={this.props.article ? this.props.article.paragraphs : null}/> */}
 
             <hr style={{ marginBottom: 24, borderColor: 'white' }}/>
             <Row style={{ marginBottom: 24 }}>
