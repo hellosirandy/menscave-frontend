@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Form, Upload, Row, Col, Icon, Progress } from 'antd';
+import { Upload, Row, Col, Icon, Progress } from 'antd';
 import { storage } from '../../../../../../../../tools/firebase';
-const FormItem = Form.Item;
 
 const ImageUploader = ({ fileSelected }) => {
   const uploadProps = {

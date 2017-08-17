@@ -9,10 +9,16 @@ export default class Paragraph extends Component {
     const { paragraph, paragraphNum, form, addParagraph, removeParagraph } = this.props;
     const dropdownMenu = (
       <Menu style={{ minWidth: 100 }}>
-        <Menu.SubMenu title={(<span><Icon type="file-add" style={{ marginRight: 5 }} />Text</span>)}>
-          <Menu.Item><a onClick={() => {addParagraph(paragraphNum - 1, 'single')}}>Single</a></Menu.Item>
-          <Menu.Item><a onClick={() => {addParagraph(paragraphNum - 1, 'split')}}>Split</a></Menu.Item>
-        </Menu.SubMenu>
+        <Menu.Item>
+          <a onClick={() => {addParagraph(paragraphNum - 1, 'single')}}>
+            <Icon type="file-text" style={{ marginRight: 5 }} />Single
+          </a>
+      </Menu.Item>
+        <Menu.Item>
+          <a onClick={() => {addParagraph(paragraphNum - 1, 'split')}}>
+            <Icon type="copy" style={{ marginRight: 5 }} />Split
+          </a>
+      </Menu.Item>
         <Menu.Item>
           <a onClick={() => {addParagraph(paragraphNum - 1, 'image')}}>
             <Icon type="picture" style={{ marginRight: 5 }} />Image
