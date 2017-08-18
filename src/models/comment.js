@@ -2,15 +2,17 @@ export class Comment {
   constructor(
     content: string,
     commenter: string,
-    updateTime: number
+    updateTime: number,
+    reply: { updateTime: number, content: string }
   ) {
     this.content = content;
     this.commenter = commenter;
     this.updateTime = updateTime;
+    this.reply = reply;
   }
 
-  formatDate() {
-    let date = new Date(this.updateTime);
+  formatDate(d) {
+    let date = new Date(d);
     return `${this.processDateString(date.getMonth()+1)}/${this.processDateString(date.getDate())} ${this.processDateString(date.getHours())}:${this.processDateString(date.getMinutes())}`;
   }
 
