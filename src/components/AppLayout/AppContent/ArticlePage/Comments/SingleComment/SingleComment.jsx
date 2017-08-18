@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Comment } from '../../../../../../models/comment';
-import { databaseRef } from '../../../../../../tools/firebase';
+import { auth, databaseRef } from '../../../../../../tools/firebase';
 import { Avatar, Button, Input, Spin } from 'antd';
 const { TextArea } = Input;
 
@@ -51,15 +51,25 @@ export default class SingleComment extends Component {
       replying: false,
       replyContent: '',
       replyLoading: false,
+      loggedIn: false,
     }
   }
+
   componentDidMount() {
     let comment = this.state.comment;
     databaseRef.child(`comments/${this.props.url}/`).on('value', snapshot => {
       comment = new Comment(snapshot.val().content, snapshot.val().commenter, snapshot.val().updateTime, snapshot.val().reply);
       this.setState({ comment });
     });
+    this.unsubscribe = auth.onAuthStateChanged(user => {
+      this.setState({ loggedIn: user ? true : false });
+    });
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   handleReplyClick = () => {
     const replying = !this.state.replying;
     const replyContent = '';
@@ -81,7 +91,7 @@ export default class SingleComment extends Component {
   }
 
   render() {
-    const { comment, replying, replyContent, replyLoading } = this.state;
+    const { comment, loggedIn, replying, replyContent, replyLoading } = this.state;
     const replyField = (replying || comment.reply ) ? <ReplyField handleInput={this.handleReplyInput} comment={comment} replying={replying}/> : null;
     return (
       <div
@@ -92,20 +102,23 @@ export default class SingleComment extends Component {
         borderRadius: 10,
         backgroundColor: '#f5f5f5',
       }}>
-        <div style={{ float: 'right'}}>
-          { replying &&
+        {loggedIn &&
+          <div style={{ float: 'right'}}>
+            { replying &&
+              <Button
+                shape="circle" icon="enter"
+                size="small" style={{ marginRight: 5 }} disabled={replyContent === ''}
+                onClick={this.handleReplySubmit}
+              />
+            }
             <Button
-              shape="circle" icon="enter"
-              size="small" style={{ marginRight: 5 }} disabled={replyContent === ''}
-              onClick={this.handleReplySubmit}
+              shape="circle" icon={replying ? "close" : "message"}
+              size="small"
+              onClick={this.handleReplyClick}
             />
-          }
-          <Button
-            shape="circle" icon={replying ? "close" : "message"}
-            size="small"
-            onClick={this.handleReplyClick}
-          />
-        </div>
+          </div>
+        }
+
         <div style={{ marginBottom: 10 }}>
           <div style={{ float: 'left' }}>
             <Avatar shape="circle" size="medium" icon="user" style={{ color: 'black', backgroundColor: '#e9e9e9' }}/>
@@ -116,10 +129,12 @@ export default class SingleComment extends Component {
           </div>
         </div>
         <p>{comment.content}</p>
-        <Spin spinning={replyLoading}>
-          {replyField}
-        </Spin>
-        {/* <ReplyField/> */}
+        {loggedIn &&
+          <Spin spinning={replyLoading}>
+            {replyField}
+          </Spin>
+        }
+
       </div>
     )
   }
