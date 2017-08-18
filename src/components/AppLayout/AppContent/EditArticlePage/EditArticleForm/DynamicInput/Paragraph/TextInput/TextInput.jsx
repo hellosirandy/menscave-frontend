@@ -13,8 +13,9 @@ const Single = ({ props }) => {
           {getFieldDecorator(`paragraphs-${paragraph.key}.content.english`, {
             initialValue: paragraph.content.english
           })(
-            <TextArea rows={5}
+            <TextArea
               style={{ resize: 'none' }}
+              autosize={{ minRows: 5, maxRows: 20 }}
             />
           )}
         </FormItem>
@@ -24,8 +25,9 @@ const Single = ({ props }) => {
           {getFieldDecorator(`paragraphs-${paragraph.key}.content.chinese`, {
             initialValue: paragraph.content.chinese
           })(
-            <TextArea rows={5}
+            <TextArea
               style={{ resize: 'none' }}
+              autosize={{ minRows: 5, maxRows: 20 }}
             />
           )}
         </FormItem>
@@ -44,8 +46,9 @@ const Split = ({ props }) => {
           {getFieldDecorator(`paragraphs-${paragraph.key}.content`, {
             initialValue: paragraph.content
           })(
-            <TextArea rows={5}
+            <TextArea
               style={{ resize: 'none' }}
+              autosize={{ minRows: 5, maxRows: 20 }}
             />
           )}
         </FormItem>
