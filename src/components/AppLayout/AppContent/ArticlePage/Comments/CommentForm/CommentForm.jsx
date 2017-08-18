@@ -15,7 +15,7 @@ class CommentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const comment = new Comment(values.content, values.commenter, (new Date()).getTime());
+        const comment = new Comment(values.content, values.commenter, (new Date()).getTime(), {});
         let commentRef = databaseRef.child('comments/').push()
         commentRef.set(comment).then(err => {
           databaseRef.child(`articles/${this.props.articleKey}/comments`).push().set(commentRef.key).then(err => {
