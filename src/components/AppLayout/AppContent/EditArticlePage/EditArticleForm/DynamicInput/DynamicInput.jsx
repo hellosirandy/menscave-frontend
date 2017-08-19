@@ -6,17 +6,24 @@ export default class DynamicInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      paragraphs: [{
-        type: 'single',
-        content: '',
-        key: uuid++,
-      }]
+      paragraphs: [],
     }
   }
 
   componentDidMount() {
+    const { paragraphs } = this.props;
     uuid = 0;
-    this.fillParagraphs(this.props.paragraphs);
+    if (paragraphs.length > 0) {
+      this.fillParagraphs(paragraphs);
+    } else {
+      this.fillParagraphs([{
+        type: 'single',
+        content: '',
+      }]);
+    }
+    // uuid = 0;
+    // this.fillParagraphs(paragraphs);
+
   }
 
   fillParagraphs = (paragraphs) => {

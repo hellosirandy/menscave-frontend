@@ -27,20 +27,31 @@ class EditArticleForm extends Component {
     updateArticle.title = values.title;
     updateArticle.category = values.category;
     let articleRef;
+    let previewRef;
     if (article) {
       updateArticle.createTime = article.createTime;
       updateArticle.comments = article.comments ? article.comments : [];
       articleRef = databaseRef.child(`articles/${articleKey}`);
+      updateArticle.previewKey = article.previewKey;
+      previewRef = databaseRef.child(`previews/${updateArticle.previewKey}`);
     } else {
       updateArticle.createTime = new Date().getTime();
       articleRef = databaseRef.child('articles').push();
+      previewRef = databaseRef.child('previews').push();
+      updateArticle.previewKey = previewRef.key;
     }
     updateArticle.updateTime = new Date().getTime();
-
+    console.log(updateArticle);
     articleRef.set(updateArticle).then(res => {
+      if (article) {
+        return previewRef.update({category: updateArticle.category});
+      } else {
+        return previewRef.set({ articleKey: articleRef.key, category: updateArticle.category, createTime: updateArticle.createTime });
+      }
+      // return preview.update({category: updateArticle.category});
+    }).then(() => {
       message.success('The article has been saved.', 3);
       history.push('/home');
-      // return databaseRef.child('previews').push().set({ articleKey: articleRef.key, category: article.category, createTime: article.createTime });
     }).catch(err => {
       console.log(err);
     });
