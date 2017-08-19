@@ -24,6 +24,7 @@ export function fetchArticle(category):Promise<resolve> {
     });
   } else {
     promise = databaseRef.child('previews').orderByChild('category').equalTo(category).once('value', snapshot => {
+      console.log(snapshot.val());
       return Promise.resolve(snapshot);
     });
   }

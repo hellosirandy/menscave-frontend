@@ -3,6 +3,7 @@ import { Card, Icon, Row, Col } from 'antd';
 import { Route } from 'react-router-dom';
 import { databaseRef } from '../../../../../tools/firebase';
 import { Article } from '../../../../../models/article';
+import ImageWall from '../../ArticlePage/Paragraph/ImageWall/ImageWall';
 
 class ArticleCard extends Component {
   constructor(props) {
@@ -32,6 +33,14 @@ class ArticleCard extends Component {
           >
           {!loading &&
             <div>
+            {article.paragraphs[0].type === 'single' &&
+              <Row>
+                <Col span={24}>
+                  <p style={{ fontSize: 16 }}>{article.paragraphs[0].content}</p>
+                </Col>
+              </Row>
+            }
+            {article.paragraphs[0].type === 'split' &&
               <Row gutter={30}>
                 <Col xs={{ span: 24 }} sm={{ span: 12 }} style={{ marginBottom: 12 }}>
                   <p style={{ fontSize: 16}}>{article.paragraphs[0].content.english}</p>
@@ -40,6 +49,10 @@ class ArticleCard extends Component {
                   <p style={{ fontSize: 16}}>{article.paragraphs[0].content.chinese}</p>
                 </Col>
               </Row>
+            }
+            {article.paragraphs[0].type === 'image' &&
+              <ImageWall url={article.paragraphs[0].content.url}/>
+            }
               <br/>
               <hr/>
               <br/>

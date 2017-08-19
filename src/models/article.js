@@ -6,6 +6,7 @@ export class Article {
     category: string,
     comments: string[],
     paragraphs: any[],
+    previewKey: string,
   ) {
     this.title = title;
     this.updateTime = updateTime;
@@ -13,6 +14,7 @@ export class Article {
     this.category = category;
     this.comments = comments;
     this.paragraphs = paragraphs;
+    this.previewKey = previewKey;
   }
 
   formatDate() {
