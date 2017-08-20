@@ -3,12 +3,14 @@ export class Comment {
     content: string,
     commenter: string,
     updateTime: number,
-    reply: { updateTime: number, content: string }
+    reply: { updateTime: number, content: string },
+    articleCommentKey: string,
   ) {
     this.content = content;
     this.commenter = commenter;
     this.updateTime = updateTime;
     this.reply = reply;
+    this.articleCommentKey = articleCommentKey;
   }
 
   formatDate(d) {

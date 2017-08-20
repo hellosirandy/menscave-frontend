@@ -71,7 +71,7 @@ class ArticlePage extends Component {
                   <Route
                     render={({history}) => (
                       <Popover content={this.generatePopover("Remove this article")} placement="right" >
-                        <Popconfirm title="Are you sure delete this article?"
+                        <Popconfirm title="Are you sure you want to delete this article?"
                           onConfirm={() => {this.handelDeleteConfirm(history)}}
                           okText="Yes" cancelText="No" placement="right">
                           <Icon type="delete"

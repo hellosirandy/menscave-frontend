@@ -20,14 +20,23 @@ class Comments extends Component {
   }
 
   componentDidMount() {
-    databaseRef.child(`articles/${this.props.articleKey}/comments`).orderByChild('updateTime').on('child_added', this.commentAdded);
+    databaseRef.child(`articles/${this.props.articleKey}/comments`).on('child_added', this.commentAdded);
+    databaseRef.child(`articles/${this.props.articleKey}/comments`).on('child_removed', this.commentRemoved);
   }
 
   commentAdded = (snapshot) => {
     let comments = this.state.comments;
     const s = snapshot.val();
     comments.push(s);
-    this.setState({ comments: comments });
+    this.setState({ comments });
+  }
+
+  commentRemoved = (snapshot) => {
+    let comments = this.state.comments;
+    const s = snapshot.val();
+    const index = comments.indexOf((s));
+    comments.splice(index, 1);
+    this.setState({ comments });
   }
 
   render() {
@@ -48,7 +57,7 @@ class Comments extends Component {
     const commentDivStyleMinHeight = this.state.commentFocus ? 292 : 62;
     const comments = this.state.comments.map((comment, index) => {
       return (
-        <SingleComment key={index} url={comment}/>
+        <SingleComment key={comment} url={comment} articleKey={this.props.articleKey}/>
       )
     });
     return (
