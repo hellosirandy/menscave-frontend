@@ -15,10 +15,11 @@ class CommentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const comment = new Comment(values.content, values.commenter, (new Date()).getTime(), {});
-        let commentRef = databaseRef.child('comments/').push()
+        let commentRef = databaseRef.child('comments/').push();
+        let articleCommentKey = databaseRef.child(`articles/${this.props.articleKey}/comments`).push();
+        const comment = new Comment(values.content, values.commenter, (new Date()).getTime(), {}, articleCommentKey.key);
         commentRef.set(comment).then(err => {
-          databaseRef.child(`articles/${this.props.articleKey}/comments`).push().set(commentRef.key).then(err => {
+          articleCommentKey.set(commentRef.key).then(err => {
             this.props.handleClickOutside();
             message.success('You have leaved a comment', 3);
           });

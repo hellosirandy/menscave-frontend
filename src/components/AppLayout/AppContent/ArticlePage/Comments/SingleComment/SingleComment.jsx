@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Comment } from '../../../../../../models/comment';
 import { auth, databaseRef } from '../../../../../../tools/firebase';
-import { Avatar, Button, Input, Spin } from 'antd';
+import { Avatar, Button, Input, Popconfirm, Spin } from 'antd';
 const { TextArea } = Input;
 
 const ReplyField = ({ comment, replying, handleInput }) => {
@@ -52,14 +52,17 @@ export default class SingleComment extends Component {
       replyContent: '',
       replyLoading: false,
       loggedIn: false,
+      deleting: false,
     }
   }
 
   componentDidMount() {
     let comment = this.state.comment;
     databaseRef.child(`comments/${this.props.url}/`).on('value', snapshot => {
-      comment = new Comment(snapshot.val().content, snapshot.val().commenter, snapshot.val().updateTime, snapshot.val().reply);
-      this.setState({ comment });
+      if (snapshot.val()) {
+        comment = new Comment(snapshot.val().content, snapshot.val().commenter, snapshot.val().updateTime, snapshot.val().reply, snapshot.val().articleCommentKey);
+        this.setState({ comment });
+      }
     });
     this.unsubscribe = auth.onAuthStateChanged(user => {
       this.setState({ loggedIn: user ? true : false });
@@ -80,13 +83,20 @@ export default class SingleComment extends Component {
     this.setState({ replyContent: v });
   }
 
-  handleReplySubmit= () => {
+  handleReplySubmit = () => {
     this.setState({ replyLoading: true });
     const updateTime = new Date().getTime();
     const replyContent = this.state.replyContent;
     databaseRef.child(`comments/${this.props.url}/reply/`).update({ updateTime: updateTime, content: replyContent }).then(() => {
       this.setState({ replyLoading: false });
       this.handleReplyClick();
+    });
+  }
+
+  handelDeleteConfirm = () => {
+    this.setState({ deleting: true });
+    databaseRef.child(`articles/${this.props.articleKey}/comments/${this.state.comment.articleCommentKey}`).set(null).then(() => {
+      return databaseRef.child(`comments/${this.props.url}/`).set(null);
     });
   }
 
@@ -102,6 +112,7 @@ export default class SingleComment extends Component {
         borderRadius: 10,
         backgroundColor: '#f5f5f5',
       }}>
+      <Spin spinning={this.state.deleting}>
         {loggedIn &&
           <div style={{ float: 'right'}}>
             { replying &&
@@ -111,11 +122,24 @@ export default class SingleComment extends Component {
                 onClick={this.handleReplySubmit}
               />
             }
+            {!replying &&
+              <Popconfirm title="Are you sure you want to delete this article?"
+                onConfirm={() => {this.handelDeleteConfirm()}}
+                okText="Yes" cancelText="No" placement="left">
+                <Button
+                  shape="circle" icon="delete"
+                  size="small"
+                  style={{ marginRight: 5 }}
+                />
+              </Popconfirm>
+            }
+
             <Button
               shape="circle" icon={replying ? "close" : "message"}
               size="small"
               onClick={this.handleReplyClick}
             />
+
           </div>
         }
 
@@ -129,11 +153,11 @@ export default class SingleComment extends Component {
           </div>
         </div>
         <p>{comment.content}</p>
-        {loggedIn &&
-          <Spin spinning={replyLoading}>
-            {replyField}
-          </Spin>
-        }
+        <Spin spinning={replyLoading}>
+          {replyField}
+        </Spin>
+      </Spin>
+
 
       </div>
     )
