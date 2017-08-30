@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Icon } from 'antd';
 import TextInput from './TextInput/TextInput';
 import ImageInput from './ImageInput/ImageInput';
+import VideoInput from './VideoInput/VideoInput';
 
 export default class Paragraph extends Component {
 
@@ -13,21 +14,28 @@ export default class Paragraph extends Component {
           <a onClick={() => {addParagraph(paragraphNum - 1, 'single')}}>
             <Icon type="file-text" style={{ marginRight: 5 }} />Single
           </a>
-      </Menu.Item>
+        </Menu.Item>
         <Menu.Item>
           <a onClick={() => {addParagraph(paragraphNum - 1, 'split')}}>
             <Icon type="copy" style={{ marginRight: 5 }} />Split
           </a>
-      </Menu.Item>
+        </Menu.Item>
         <Menu.Item>
           <a onClick={() => {addParagraph(paragraphNum - 1, 'image')}}>
             <Icon type="picture" style={{ marginRight: 5 }} />Image
           </a>
         </Menu.Item>
+        <Menu.Item>
+          <a onClick={() => {addParagraph(paragraphNum - 1, 'video')}}>
+            <Icon type="video-camera" style={{ marginRight: 5 }} />Video
+          </a>
+        </Menu.Item>
       </Menu>
     );
     const inputField = paragraph.type === 'image' ? (<ImageInput form={form} paragraph={paragraph}/>) : (
-      <TextInput form={form} paragraph={paragraph}/>
+      paragraph.type === 'video' ? (<VideoInput form={form} paragraph={paragraph}/>) : (
+        <TextInput form={form} paragraph={paragraph}/>
+      )
     )
     return (
       <div style={{ marginBottom: 24 }}>

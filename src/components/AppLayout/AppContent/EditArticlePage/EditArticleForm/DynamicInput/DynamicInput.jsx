@@ -47,6 +47,8 @@ export default class DynamicInput extends Component {
       content = {english: '', chinese: ''};
     } else if (type === 'image') {
       content = {url: ''};
+    } else if (type === 'video') {
+      content = {url: ''};
     }
     const keys = form.getFieldValue('keys');
     keys.splice(num+1, 0, uuid);
